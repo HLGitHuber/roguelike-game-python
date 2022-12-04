@@ -23,4 +23,6 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    pass
+    cords = player['player_cord']
+    board[cords[0]][cords[1]] = player['player_symbol']
+    
