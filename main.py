@@ -18,13 +18,26 @@ def create_player():
     Returns:
     dictionary
     '''
-    pass
+    player = {
+        'player_symbol' : '@',
+        'player_cord' : (5, 5)
+    }
+    return player
+
+
+def read_table_from_file(file_name):
+    try:
+        with open(file_name, "r") as file:
+            lines = file.readlines()
+        return [ *(element.replace("\n", "") for element in lines)]
+    except IOError:
+        return []
 
 
 def main():
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-
+    #board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = read_table_from_file('maps/map0.txt')
     util.clear_screen()
     is_running = True
     while is_running:
