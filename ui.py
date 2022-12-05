@@ -10,7 +10,6 @@ def display_board(board):
             print(element, end = ' ')
         print()
 
-
-
-
-
+def display_inventory(inventory):
+    for item in inventory :
+        print(item, ": ", inventory[item])
