@@ -20,17 +20,35 @@ def create_player():
     '''
     pass
 
+def read_table_from_file(file_name):
+    try:
+        with open(file_name, "r") as file:
+            lines = file.readlines()
+        return [ *(element.replace("\n", "") for element in lines)]
+    except IOError:
+        return []
 
 def main():
+    color_scheme = {        
+        '.': ' '
+    }
+    statistics = {
+        'HP': '100',
+        'STR': '20'
+    }
+    
+    map_file = 'maps/map2.txt'
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-
+    # board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = read_table_from_file(map_file)
+    
     util.clear_screen()
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
-        ui.display_board(board)
-
+        ui.display_zone(map_file)
+        ui.display_board(board, color_scheme)
+        ui.display_stats(statistics)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
