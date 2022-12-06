@@ -20,5 +20,6 @@ def display_stats(statistics):
         print(f'{key}: {value}', end='\t', flush=True)
 
 def display_zone(map_file):
+    #map_file - string, directory of the map
     map_name = map_file.replace('.txt','').replace('maps/', '')
     print(map_name,'\n')
