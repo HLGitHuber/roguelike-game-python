@@ -33,16 +33,27 @@ def read_table_from_file(file_name):
     except IOError:
         return []
 
+def create_inventory():
+    inventory= { 
+    "keys": 0,
+    "weapon" : 0,
+    "armor" : 0,
+    "medicine" : 2
+    }
+    return inventory
 
 def main():
     player = create_player()
-    #board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     board = read_table_from_file('maps/map0.txt')
+    inventory = create_inventory()
     util.clear_screen()
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
         ui.display_board(board)
+        ui.display_inventory(inventory)
+    
 
         key = util.key_pressed()
         if key == 'q':
@@ -54,3 +65,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
