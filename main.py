@@ -32,13 +32,6 @@ def read_table_from_file(file_name):
     except IOError:
         return []
 
-def read_table_from_file(file_name):
-    try:
-        with open(file_name, "r") as file:
-            lines = file.readlines()
-        return [ *(element.replace("\n", "") for element in lines)]
-    except IOError:
-        return []
 
 def create_inventory():
     inventory= { 
