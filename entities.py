@@ -135,5 +135,4 @@ player.spawn(board0)
 enemies: list[Entity] = [Entity('rat'), Entity(
     'rat'), Entity('goblin'), Entity('wolf')]
 spawn_enemies(enemies, board0)
-# enemies[0].recieve_damage(enemies, player.deal_damage())
-print('dupa')
+enemies[0].recieve_damage(enemies, player.deal_damage())
