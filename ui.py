@@ -23,3 +23,16 @@ def ask_for_using(item):
     if my_key == 'c':
         return True
     
+
+def ask_for_race():
+    print('Choose race of your hero. Press h if you want to play with human, e if you want to play with elph or d if you want to play with dwarf')
+    my_key = util.key_pressed()
+    if my_key == 'h':
+        return 'human'
+    elif my_key == 'e':
+        return 'elph'
+    elif my_key  == 'd':
+        return 'dwarf'
+    else:
+        print('Something went wrong, try again')
+        ask_for_race()
