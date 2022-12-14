@@ -98,6 +98,7 @@ class Entity:
             j = randint(0, len(board[0])-1)
         Entity.instance[self.name]['location'] = i, j
         Entity.spawned.append(self.name)
+        self.location = i, j
         board[i][j] = self.symbol
         return i, j
 
@@ -111,27 +112,28 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
         level_board[row][col] = enemy.symbol
 
 
-# board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
-#                             '#', '#', '#', '#', '#', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '#', '#', '#', '#', '#',
-#                                '#', '#', '#', '#', '#', '#']]
-# player: Entity = Entity('player')
-# player.spawn(board0)
-# enemies: list[Entity] = [Entity('rat'), Entity(
-#     'rat'), Entity('goblin'), Entity('wolf')]
-# spawn_enemies(enemies, board0)
+board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
+                            '#', '#', '#', '#', '#', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '#', '#', '#', '#', '#',
+                               '#', '#', '#', '#', '#', '#']]
+player: Entity = Entity('player')
+player.spawn(board0)
+enemies: list[Entity] = [Entity('rat'), Entity(
+    'rat'), Entity('goblin'), Entity('wolf')]
+spawn_enemies(enemies, board0)
 # enemies[0].recieve_damage(enemies, player.deal_damage())
+print('dupa')
