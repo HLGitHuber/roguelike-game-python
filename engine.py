@@ -1,3 +1,4 @@
+from entities import Entity
 import util
 import ui
 
@@ -69,7 +70,6 @@ def move_left(board, player_coord):
         item = INVENTORY_DICT[item]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
         add_to_inventory(INVENTORY, item)
-        #print(INVENTORY)
 
 
 def move_right(board, player_coord):
@@ -84,7 +84,6 @@ def move_right(board, player_coord):
         item = INVENTORY_DICT[item]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
         add_to_inventory(INVENTORY, item)
-        #print(INVENTORY)
 
 def move_up(board, player_coord):
     if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
@@ -98,7 +97,6 @@ def move_up(board, player_coord):
         item = INVENTORY_DICT[item]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
         add_to_inventory(INVENTORY, item)
-        #print(INVENTORY)
 
 def move_down(board, player_coord):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
@@ -186,12 +184,55 @@ def open_door():
     if use_item(INVENTORY) == 'used':
         return 'open'
 
-
 def get_board(filename):
     with open(filename, 'r') as file:
         return [list(line)[:-1] for line in file.readlines()]
     
 
+def get_race():
+    given_race = ui.ask_for_race()
+    human = 'player;@;50;2;5;(0,0);blood;1'
+    elph = 'player;@;35;3;4;(0,0);blood;1'
+    dwarf = 'player;@;65;1;9;(0,0);blood;1'
+    data = open('enemy_template.txt').read().splitlines()
+    
+    if given_race == 'human':
+        data[1] = human
+    elif given_race == 'elph':
+        data[1] = elph
+    elif given_race == 'dwarf':
+        data[1] = dwarf
+    print(data[1])
+    with open('enemy_template.txt', 'w') as file:
+        for element in data:
+            file.write(element + "\n")
+
+get_race()
+
+
+
+
+# def get_race(filename):
+#     given_race = ui.ask_for_race()
+#     human = 'player;@;50;2;5;(0,0);blood;1'
+#     elph = 'player;@;35;3;4;(0,0);blood;1'
+#     dwarf = 'player;@;65;1;9;(0,0);blood;1'
+#     data = open(filename).read().splitlines()
+    
+#     if given_race == 'human':
+#         data[1] = human
+#     elif given_race == 'elph':
+#         data[1] = elph
+#     elif given_race == 'dwarf':
+#         data[1] = dwarf
+#     table = data[1].split(';')
+    
+#     character = Entity(table[0])
+#     print(character.name)
+
+#     with open(filename, 'w') as file:
+#         for element in data:
+#             file.write(element + "\n")
 
 
 
@@ -200,39 +241,6 @@ def get_board(filename):
 
 
 
-## do sprawdzania działania inwentarza
-# for _ in range(2):
-#     use_item(INVENTORY)
-#     #print(INVENTORY)
 
 
 
-# def go_through_door(player, board, player_coord, inventory):
-#     my_key = util.key_pressed()
-#     if board[player_coord[1]] - 1 ==  #obok zablokowaneych drzwi i naciska klawisz w stronę drzwi
-#         if inventory['key'] != None and my_key == 'k':
-#             delete_from_inventory(inventory['key'])
-#             #otwórz drzwi i zapamiętaj - zmiana na planszy
-#             #zmień planszę
-#         else:
-#             print('You need a key to open the door')
-
-
-
-
-
-# def add_to_inventory_file(inventory, file_name):
-#     inventory = add_to_inventory()
-#     added_things = []
-#     for row in inventory:
-#         added_things.append(row)
-
-#     with open(file_name, 'r') as readFile:
-#         reader = csv.reader(readFile)
-#         for row in reader:
-#             added_things.append(row)
-#     with open(file_name, 'w') as writeFile:
-#         for row in writeFile:
-#             writeFile(row) = added_things[row]
-#         writer = csv.writer(writeFile)
-#         writer.writerows(added_things)
