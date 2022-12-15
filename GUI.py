@@ -12,6 +12,8 @@ PLAYER_START_Y = 3
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
+BLOCK_WIDTH = 20
+BLOCK_HEIGHT = 20
 
 def create_player():
     '''
@@ -60,7 +62,7 @@ def main():
     
     pygame.display.set_caption('Fight The Troll')
     
-    window_size = (800,600)
+    window_size = (1024,768)
     window_surface = pygame.display.set_mode(window_size)
     background = pygame.Surface(window_size)
     
@@ -68,8 +70,10 @@ def main():
     
     clock = pygame.time.Clock()
     
-    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,400,800,200),
-                                          manager=manager)
+    PANEL_HEIGHT = 200
+    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,-PANEL_HEIGHT,window_size[0],PANEL_HEIGHT),
+                                          manager=manager,
+                                          anchors={'bottom': 'bottom'})
     
     name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
                                                          placeholder_text='Enter your name',
@@ -78,41 +82,37 @@ def main():
                                                          anchors={'centerx': 'centerx',
                                                                   'centery': 'centery'})    
     player = create_player()
-    board = read_table_from_file('roguelike-game-python-AdamNowicki22/maps/map0.txt')
-    # TODO: usunac pierwszy path
-    
-    BLOCK_WIDTH = 20
-    BLOCK_HEIGHT = 40
-    
-    #test putting player on board
+    board = read_table_from_file('maps/map0.txt')
     player_coord = player['player_cord']
+    engine.put_player_on_board(board,player)
     
-    
-    
+    top_player = window_size[1]/2
+    left_player = window_size[0]/2
     # inventory = create_inventory()
     player_name = ''
     util.clear_screen()
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
-        concatenation = player_coord[1]+1
-        board[player_coord[0]] = board[player_coord[0]][:player_coord[1]] +'@'+ board[player_coord[0]][concatenation:]
-    
-        top = 0
+        
+        pygame.draw.rect(background,(0,0,50),(0,0,window_size[0],window_size[1]))
+        top = top_player - (int(player_coord[0])*BLOCK_HEIGHT)
         for row in board:
-            left = 0
+            left = left_player - (int(player_coord[1])*BLOCK_WIDTH)
             for element in row:
                 if element == '#':
                     pygame.draw.rect(background,(0,0,255),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 elif element == 'G':
                     pygame.draw.rect(background,(0,255,100),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 elif element == '@':
-                    pygame.draw.rect(background,(0,0,0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                    pygame.draw.rect(background,(255,0,0),(left_player,top_player,BLOCK_WIDTH,BLOCK_HEIGHT))
                 else:
                     pygame.draw.rect(background,(125,40,90),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 left += BLOCK_WIDTH
             top += BLOCK_HEIGHT
-            
+    
+        
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
