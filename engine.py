@@ -2,7 +2,7 @@ from entities import Entity
 import util
 import ui
 
-SPACES_ALLOWED_TO_MOVE = ['.']
+SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4']
 SPACES_WITH_ITEMS = ['k', 'm']
 SPACED_BANNED_FROM_MOVING = ''
 PLAYER_SYMBOL = '@'
@@ -60,7 +60,8 @@ def slicing_for_movement(board, player_coord, letter):
 
 def move_left(board, player_coord):
     if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE:
-        slicing_for_movement(board,player_coord,'.')
+        last_letter = board[player_coord[0]][player_coord[1]-1]
+        slicing_for_movement(board,player_coord,last_letter)
         player_coord[1] +=-1
         slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]][player_coord[1]-1] in SPACES_WITH_ITEMS:
@@ -74,7 +75,8 @@ def move_left(board, player_coord):
 
 def move_right(board, player_coord):
     if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
-        slicing_for_movement(board,player_coord,'.')
+        last_letter = board[player_coord[0]][player_coord[1]+1]
+        slicing_for_movement(board,player_coord,last_letter)
         player_coord[1] += 1
         slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]][player_coord[1]+1] in SPACES_WITH_ITEMS:
@@ -87,7 +89,8 @@ def move_right(board, player_coord):
 
 def move_up(board, player_coord):
     if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
-        slicing_for_movement(board,player_coord,'.')
+        last_letter = board[player_coord[0]-1][player_coord[1]]
+        slicing_for_movement(board,player_coord,last_letter)
         player_coord[0] +=-1
         slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]-1][player_coord[1]] in SPACES_WITH_ITEMS:
@@ -100,7 +103,8 @@ def move_up(board, player_coord):
 
 def move_down(board, player_coord):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
-        slicing_for_movement(board,player_coord,'.')
+        last_letter = board[player_coord[0]+1][player_coord[1]]
+        slicing_for_movement(board,player_coord,last_letter)
         player_coord[0] +=1
         slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]+1][player_coord[1]] in SPACES_WITH_ITEMS:

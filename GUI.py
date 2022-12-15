@@ -2,6 +2,7 @@ import util
 import engine
 import pygame
 import pygame_gui
+import entities
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -9,8 +10,8 @@ PLAYER_START_Y = 3
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-BLOCK_WIDTH = 20
-BLOCK_HEIGHT = 20
+BLOCK_WIDTH = 40
+BLOCK_HEIGHT = 40
 PANEL_HEIGHT = 200
 
 def create_player():
@@ -57,9 +58,9 @@ def main():
     
     clock = pygame.time.Clock()
     
-    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,-PANEL_HEIGHT,window_size[0],PANEL_HEIGHT),
+    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-3,-PANEL_HEIGHT-3,window_size[0]+6,PANEL_HEIGHT+6),
                                           manager=manager,
-                                          anchors={'bottom': 'bottom'})
+                                          anchors={'bottom': 'bottom'},)
     
     text = 'This is the text_box\n'
     text_box = pygame_gui.elements.UITextBox(text,
@@ -78,15 +79,15 @@ def main():
     player_coord = player['player_cord']
     engine.put_player_on_board(board,player)
     
-    top_player = window_size[1]/2
-    left_player = window_size[0]/2
+    top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
+    left_player = (window_size[0]-BLOCK_WIDTH)/2
     # inventory = create_inventory()
     player_name = ''
     util.clear_screen()
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
-        
+        #statistics = f'HP {entities.player.health} / {entities.player.maxhealth}'
         pygame.draw.rect(background,(0,0,50),(0,0,window_size[0],window_size[1]))
         top = top_player - (int(player_coord[0])*BLOCK_HEIGHT)
         for row in board:
@@ -98,6 +99,20 @@ def main():
                     pygame.draw.rect(background,(0,255,100),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 elif element == '@':
                     pygame.draw.rect(background,(255,0,0),(left_player,top_player,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '6':
+                    pygame.draw.rect(background,(155, 194, 230),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '8':
+                    pygame.draw.rect(background,(38, 38, 38),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '5':
+                    pygame.draw.rect(background,(128, 0, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '4':
+                    pygame.draw.rect(background,(128, 96, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '3':
+                    pygame.draw.rect(background,(197, 197, 197),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '2':
+                    pygame.draw.rect(background,(169, 208, 142),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+                elif element == '1':
+                    pygame.draw.rect(background,(191, 143, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 else:
                     pygame.draw.rect(background,(125,40,90),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
                 left += BLOCK_WIDTH
