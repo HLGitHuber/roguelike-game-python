@@ -37,4 +37,3 @@ def ask_for_using(item):
     my_key = util.key_pressed()
     if my_key == 'c':
         return True
-    

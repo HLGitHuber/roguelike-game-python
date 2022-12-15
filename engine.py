@@ -1,6 +1,19 @@
 import util
 import ui
 
+SPACES_ALLOWED_TO_MOVE = ['.']
+SPACES_WITH_ITEMS = ['k', 'm']
+SPACED_BANNED_FROM_MOVING = ''
+PLAYER_SYMBOL = '@'
+INVENTORY = {
+    "keys": 3,
+    "medicine" : 0,
+}
+INVENTORY_DICT = {
+    'k' : 'keys',
+    'm' : 'medicine'
+}
+
 
 def create_board(width, height):
     '''
@@ -33,19 +46,6 @@ def put_player_on_board(board, player):
     board[cords[0]] = ''.join([str(elem) for elem in temp_board])
     #fix 
 
-
-SPACES_ALLOWED_TO_MOVE = ['.']
-SPACES_WITH_ITEMS = ['k', 'm']
-SPACED_BANNED_FROM_MOVING = ''
-PLAYER_SYMBOL = '@'
-INVENTORY = {
-    "keys": 3,
-    "medicine" : 0,
-}
-INVENTORY_DICT = {
-    'k' : 'keys',
-    'm' : 'medicine'
-}
 
 def add_to_inventory(inventory, item):
     print('You have found a ', item)
@@ -173,13 +173,31 @@ def use_item(inventory):
             permission = ui.ask_for_using(item)
             if permission:
                 delete_from_inventory(inventory, item)
-
-
+                return 'used'
 
 def delete_from_inventory(inventory, item):
     inventory = INVENTORY
     inventory[item] -= 1
     return inventory
+
+
+def open_door():
+    print('If you want to go through door, you need to use a key. Press k to do it.')
+    if use_item(INVENTORY) == 'used':
+        return 'open'
+
+
+def get_board(filename):
+    with open(filename, 'r') as file:
+        return [list(line)[:-1] for line in file.readlines()]
+    
+
+
+
+
+
+
+
 
 
 ## do sprawdzania działania inwentarza
