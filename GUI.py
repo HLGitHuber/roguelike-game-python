@@ -14,6 +14,7 @@ BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 BLOCK_WIDTH = 20
 BLOCK_HEIGHT = 20
+PANEL_HEIGHT = 200
 
 def create_player():
     '''
@@ -46,17 +47,6 @@ def create_inventory():
     }
     return inventory
 
-def moveTiles(self):
-    xmove = self.parent.dt * self.panning[0] * self.panning_speed
-    ymove = self.parent.dt * self.panning[1] * self.panning_speed
-    for tile in self.game_map:
-        tile.x += xmove
-        tile.y += ymove
-        tile.rect.x = int(tile.x)
-        tile.rect.y = int(tile.y)
-        tile.pos = (tile.rect.x, tile.rect.y)
-
-
 def main():
     pygame.init()
     
@@ -70,7 +60,6 @@ def main():
     
     clock = pygame.time.Clock()
     
-    PANEL_HEIGHT = 200
     uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,-PANEL_HEIGHT,window_size[0],PANEL_HEIGHT),
                                           manager=manager,
                                           anchors={'bottom': 'bottom'})
