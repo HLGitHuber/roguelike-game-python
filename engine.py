@@ -28,10 +28,13 @@ def put_player_on_board(board, player):
     Nothing
     '''
     cords = player['player_cord']
-    board[cords[0]][cords[1]] = player['player_symbol']
+    temp_board = [*board[cords[0]]]
+    temp_board[cords[1]] = player['player_symbol']
+    board[cords[0]] = ''.join([str(elem) for elem in temp_board])
+    #fix 
 
 
-SPACES_ALLOWED_TO_MOVE = ['O']
+SPACES_ALLOWED_TO_MOVE = ['.']
 SPACES_WITH_ITEMS = ['k', 'm']
 SPACED_BANNED_FROM_MOVING = ''
 PLAYER_SYMBOL = '@'
@@ -49,14 +52,18 @@ def add_to_inventory(inventory, item):
     inventory[item] += 1
     return inventory
 
+#NEEDED FIXES FOR MOVING 
+def slicing_for_movement(board, player_coord, letter):
+    concatenation = player_coord[1]+1
+    board[player_coord[0]] = board[player_coord[0]][:player_coord[1]] +letter+ board[player_coord[0]][concatenation:]
 
 def move_left(board, player_coord):
     if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        slicing_for_movement(board,player_coord,'.')
         player_coord[1] +=-1
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+        slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]][player_coord[1]-1] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        board[player_coord[0]][player_coord[1]] = '.'
         player_coord[1] +=-1
         item = board[player_coord[0]][player_coord[1]]
         item = INVENTORY_DICT[item]
@@ -67,11 +74,11 @@ def move_left(board, player_coord):
 
 def move_right(board, player_coord):
     if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        slicing_for_movement(board,player_coord,'.')
         player_coord[1] += 1
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+        slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]][player_coord[1]+1] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        board[player_coord[0]][player_coord[1]] = '.'
         player_coord[1] +=1
         item = board[player_coord[0]][player_coord[1]]
         item = INVENTORY_DICT[item]
@@ -81,11 +88,11 @@ def move_right(board, player_coord):
 
 def move_up(board, player_coord):
     if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        slicing_for_movement(board,player_coord,'.')
         player_coord[0] +=-1
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+        slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]-1][player_coord[1]] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        board[player_coord[0]][player_coord[1]] = '.'
         player_coord[0] +=-1
         item = board[player_coord[0]][player_coord[1]]
         item = INVENTORY_DICT[item]
@@ -95,11 +102,11 @@ def move_up(board, player_coord):
 
 def move_down(board, player_coord):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        slicing_for_movement(board,player_coord,'.')
         player_coord[0] +=1
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+        slicing_for_movement(board,player_coord,PLAYER_SYMBOL)
     elif board[player_coord[0]+1][player_coord[1]] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
+        board[player_coord[0]][player_coord[1]] = '.'
         player_coord[0] +=1
         item = board[player_coord[0]][player_coord[1]]
         item = INVENTORY_DICT[item]

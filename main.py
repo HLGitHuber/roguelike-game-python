@@ -1,6 +1,7 @@
 import util
 import engine
 import ui
+import sys
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -20,7 +21,7 @@ def create_player():
     '''
     player = {
         'player_symbol' : '@',
-        'player_cord' : (5, 5)
+        'player_cord' : [5, 5]
     }
     return player
 
@@ -45,7 +46,7 @@ def create_inventory():
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    board = read_table_from_file('maps/map0.txt')
+    board = read_table_from_file('roguelike-game-python-AdamNowicki22/maps/map0.txt') #TODO del first path
     inventory = create_inventory()
     util.clear_screen()
     is_running = True
@@ -64,6 +65,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        if sys.argv[1] == 'gui':
+            import GUI
+            GUI.main()
+    except:
+        main()
+    # nie wiem czy dziala
 
 
