@@ -61,12 +61,18 @@ def main():
                                           manager=manager,
                                           anchors={'bottom': 'bottom'})
     
-    name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
-                                                         placeholder_text='Enter your name',
-                                                         manager=manager,
-                                                         container=uipanel,
-                                                         anchors={'centerx': 'centerx',
-                                                                  'centery': 'centery'})    
+    text = 'This is the text_box\n'
+    text_box = pygame_gui.elements.UITextBox(text,
+                                             relative_rect= pygame.Rect(-3,-3,window_size[0],PANEL_HEIGHT),
+                                             container=uipanel,
+                                             manager=manager)
+    
+    # name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
+    #                                                      placeholder_text='Enter your name',
+    #                                                      manager=manager,
+    #                                                      container=uipanel,
+    #                                                      anchors={'centerx': 'centerx',
+    #                                                               'centery': 'centery'})    
     player = create_player()
     board = read_table_from_file('maps/map0.txt')
     player_coord = player['player_cord']
@@ -107,17 +113,25 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board,player_coord)
+                    text = 'You moved left\n'
+                    text_box.append_html_text(text)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board,player_coord)
+                    text = 'You moved right\n'
+                    text_box.append_html_text(text)
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board,player_coord)
+                    text = 'You moved up\n'
+                    text_box.append_html_text(text)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board,player_coord)
-                
-            if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
-                if event.ui_element == name_input_box:
-                    player_name = event.text
-                    print(player_name)
+                    text = 'You moved down\n'
+                    text_box.append_html_text(text)
+            
+            # if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
+            #     if event.ui_element == name_input_box:
+            #         player_name = event.text
+            #         print(player_name)
                     
             manager.process_events(event)
         
@@ -129,7 +143,6 @@ def main():
         pygame.display.update()
 
         # TODO ui.display_inventory(inventory)
-        # TODO maybe logs on right?
         # TODO bottom panel as interface (like inventory) (need to show it somehow :| )
         
         
