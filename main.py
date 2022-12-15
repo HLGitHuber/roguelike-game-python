@@ -1,6 +1,7 @@
 import util
 import engine
 import ui
+import sys
 
 
 def create_player():
@@ -13,12 +14,9 @@ def create_player():
     '''
     player = {
         'player_symbol' : '@',
-        'player_cord_1' : 5,
-        'player_cord_2' : 5
+        'player_cord' : [5, 5]
     }
     return player
-
-
 
 def read_table_from_file(file_name):
     try:
@@ -29,10 +27,22 @@ def read_table_from_file(file_name):
         return []
 
 
+def create_inventory():
+    inventory= { 
+    "keys": 0,
+    "weapon" : 0,
+    "armor" : 0,
+    "medicine" : 2
+    }
+    return inventory
+
 def main():
     player = create_player()
-    board = engine.get_board('maps/map0.txt')
-    inventory = engine.INVENTORY
+    # board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = read_table_from_file('roguelike-game-python-AdamNowicki22/maps/map0.txt') #TODO del first path
+    # inventory = create_inventory()
+    # board = engine.get_board('maps/map0.txt')
+    # inventory = engine.INVENTORY
     engine.put_player_on_board(board, player)
     util.clear_screen()
     player_starting_coord = [5,5] 
@@ -41,7 +51,7 @@ def main():
     while is_running:
         
         ui.display_board(board)
-        ui.display_inventory(inventory)
+        # ui.display_inventory(inventory)
     
 
         my_key = util.key_pressed()
@@ -71,5 +81,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        if sys.argv[1] == 'gui':
+            import GUI
+            GUI.main()
+    except:
+        main()
+    # nie wiem czy dziala
+
 
