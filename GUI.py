@@ -57,7 +57,7 @@ def create_inventory():
 8 - dziura
 9 - brama
 
-mobki
+mobki TODO
 R W G D B T
 
 RGB:
@@ -158,7 +158,7 @@ def main():
     while is_running:
         time_delta = clock.tick(60)/1000.0
         
-        #statistics = f'HP {entities.player.health} / {entities.player.maxhealth}'
+        #TODO statistics = f'HP {entities.player.health} / {entities.player.maxhealth}'
         
         paint_board(board,background,top_player,left_player,player_coord,window_size)
         
@@ -201,6 +201,7 @@ def main():
 
         # TODO ui.display_inventory(inventory)
         # TODO bottom panel as interface (like inventory) (need to show it somehow :| )
+        # TODO testowa walka z bossem (eventy, znikanie mapy i wiekszy log) (smaller font)
         
         
 if __name__ == '__main__':
