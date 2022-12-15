@@ -1,10 +1,7 @@
 import util
 import engine
-import ui
 import pygame
 import pygame_gui
-from pygame_gui.core import ObjectID
-from pygame_gui.windows.ui_console_window import UIConsoleWindow
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -132,7 +129,6 @@ def main():
         pygame.display.update()
 
         # TODO ui.display_inventory(inventory)
-        # TODO Panning for map (cuz map too big for screen) TODO maybe put it on another pannel?
         # TODO maybe logs on right?
         # TODO bottom panel as interface (like inventory) (need to show it somehow :| )
         
