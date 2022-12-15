@@ -131,8 +131,21 @@ def main():
     uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-3,-PANEL_HEIGHT-3,window_size[0]+6,PANEL_HEIGHT+6),
                                           manager=manager,
                                           anchors={'bottom': 'bottom'},)
-    
-    text = 'This is the text_box\n'
+    text="""
+     ..    ..:::..^~?!        
+     7?!!~~~~^^^^~77J~        
+     .JY?~^::::::::^77.       
+      7?~^~J^:::7J^^~7?.      
+     .?7!~!?~^^^~~7~!!77      
+     :?7?!!!~~~^~~~~!!?~      
+      !J?7!!!!~~~~!!!77~:     
+     !!~7!~~^::::::^^~!^!^    
+    !7^7?~:.........:~J~:!^   
+   ^?^:?7!::.......:^!Y!^^7:  
+   77~~7J!~^^^^^^^^~!7Y?!!!.  
+   .^~~J?!!!7?!~?7!!!!J^ .    
+       :!!!!!!. !!!!!7!       
+        """
     text_box = pygame_gui.elements.UITextBox(text,
                                              relative_rect= pygame.Rect(-3,-3,window_size[0],PANEL_HEIGHT),
                                              container=uipanel,
