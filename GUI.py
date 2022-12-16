@@ -26,7 +26,7 @@ def create_player():
     '''
     player = {
         'player_symbol': '@',
-        'player_cord': [5, 5]
+        'player_cord': [5, 30]
     }
     return player
 
@@ -48,6 +48,15 @@ def create_inventory():
         "medicine": 2
     }
     return inventory
+
+
+def convert_dict_to_str(dictionary, string, seperator=': '):
+    for key, value in dictionary.items():
+        string += key
+        string += seperator
+        string += str(value)
+        string += '\n'
+    return string
 
 
 '''
@@ -189,26 +198,38 @@ def main():
                                              container=log_panel,
                                              manager=manager)
 
-    text_inv = pygame_gui.elements.UITextBox(text,
+    inventory_text = ''
+    text_inv = pygame_gui.elements.UITextBox('Inventory:\n',
                                              relative_rect=pygame.Rect(
                                                  -3, -3, window_size[0]/4, 200),
                                              container=inv_panel,
                                              manager=manager)
 
-    # name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
-    #                                                      placeholder_text='Enter your name',
-    #                                                      manager=manager,
-    #                                                      container=uipanel,
-    #                                                      anchors={'centerx': 'centerx',
-    #                                                               'centery': 'centery'})
+    stats = f''
+    text_stats = pygame_gui.elements.UITextBox(stats,
+                                               relative_rect=pygame.Rect(
+                                                   -3, -3, window_size[0], 40),
+                                               container=stats_panel,
+                                               manager=manager)
+
     player = create_player()
-    board = mc.temp_map0
+    board0 = read_table_from_file('maps/map0.txt')
+    board1 = read_table_from_file('maps/map1.txt')
+    board2 = read_table_from_file('maps/map2.txt')
+    board3 = read_table_from_file('maps/map3.txt')
+    board4 = read_table_from_file('maps/map4.txt')
+    board = board0
     player_coord = player['player_cord']
     engine.put_player_on_board(board, player)
 
+    def change_map(board, player_coord):
+        pass
+
     top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
     left_player = (window_size[0]-BLOCK_WIDTH)/2
-    # inventory = create_inventory()
+    inventory = create_inventory()
+    inventory_text = convert_dict_to_str(inventory, inventory_text)
+    text_inv.append_html_text(inventory_text)
     player_name = ''
     util.clear_screen()
     is_running = True
