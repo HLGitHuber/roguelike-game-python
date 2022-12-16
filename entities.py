@@ -25,9 +25,10 @@ class Entity:
         self.roll: int = int(template[7])
         self.location: tuple[int, int] = (0, 0)
         self.loot: list[str] = template[9].split(',')
-        self.chance: list[int] = []
+        if self.name != 'player':
+            self.chance: list[int] = [int(self.loot.pop(3)) for _ in range(3)]
         Entity.instance.update(
-            {self.name: {'health': self.health, 'location': self.location}})
+            {self.name: {'health': self.maxhealth, 'location': self.location}})
 
     def __del__(self) -> None:
         """Remove entity."""
@@ -107,8 +108,10 @@ class Entity:
         board[i][j] = self.symbol
         return i, j
 
-    def drop_item(self):
-        pass
+    def drop_item(self) -> str:
+        """Roll item drop from drop table."""
+        item: str = choices(self.loot, cum_weights=self.chance)[0]
+        return item
 
 
 def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
@@ -118,29 +121,3 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
         enemy.spawn(level_board)
         row, col = enemy.instance[enemy.name]['location']
         level_board[row][col] = enemy.symbol
-
-
-# board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
-#                             '#', '#', '#', '#', '#', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '#', '#', '#', '#', '#',
-#                                '#', '#', '#', '#', '#', '#']]
-# player: Entity = Entity('player')
-# player.spawn(board0)
-# enemies: list[Entity] = [Entity('rat'), Entity(
-#     'rat'), Entity('goblin'), Entity('wolf')]
-# spawn_enemies(enemies, board0)
-# enemies[0].recieve_damage(enemies, player.deal_damage())
