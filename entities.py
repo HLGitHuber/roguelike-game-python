@@ -25,16 +25,18 @@ class Entity:
         self.roll: int = int(template[7])
         self.location: tuple[int, int] = (0, 0)
         self.loot: list[str] = template[9].split(',')
-        self.chance: list[int] = []
+        self.prevfield: str = ''
+        if self.name != 'player':
+            self.chance: list[int] = [int(self.loot.pop(3)) for _ in range(3)]
         Entity.instance.update(
-            {self.name: {'health': self.health, 'location': self.location}})
+            {self.name: {'health': self.maxhealth, 'location': self.location}})
 
     def __del__(self) -> None:
         """Remove entity."""
         if self.name == 'player':
             print('You are dead. Better luck next time!')
         else:
-            print(f'{self.name[:-1]} was killed')
+            print(f'{self.name} was killed')
 
     def remove_from_enemy_list(self, enemies_list: list[Any]) -> None:
         """Delete entity object from enemies list."""
@@ -77,7 +79,7 @@ class Entity:
         self.health -= damage
         current_health: int = self.health if self.health >= 0 else 0
         print(
-            f'{self.name[:-1]} has {current_health} health left')
+            f'{self.name} has {current_health} health left')
         Entity.instance[self.name]['health'] = current_health
         if self.health <= 0:
             Entity.instance.pop(self.name)
@@ -91,10 +93,10 @@ class Entity:
         if self.name == 'player':
             print(f'{self.name} dealt {damage} damage')
         else:
-            print(f'{self.name[:-1]} dealt {damage} damage')
+            print(f'{self.name} dealt {damage} damage')
         return damage
 
-    def spawn(self, board: list[list[str]]) -> tuple[int, int]:
+    def spawn(self, board: list[list[str]]) -> None:
         """Place entity on board."""
         i: int = randint(0, len(board)-1)
         j: int = randint(0, len(board[0])-1)
@@ -104,11 +106,13 @@ class Entity:
         Entity.instance[self.name]['location'] = i, j
         Entity.spawned.append(self.name)
         self.location = i, j
-        board[i][j] = self.symbol
-        return i, j
 
-    def drop_item(self):
-        pass
+        board[i][j] = self.symbol
+
+    def drop_item(self) -> str:
+        """Roll item drop from drop table."""
+        item: str = choices(self.loot, cum_weights=self.chance)[0]
+        return item
 
 
 def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
@@ -118,29 +122,3 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
         enemy.spawn(level_board)
         row, col = enemy.instance[enemy.name]['location']
         level_board[row][col] = enemy.symbol
-
-
-# board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
-#                             '#', '#', '#', '#', '#', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '#', '#', '#', '#', '#',
-#                                '#', '#', '#', '#', '#', '#']]
-# player: Entity = Entity('player')
-# player.spawn(board0)
-# enemies: list[Entity] = [Entity('rat'), Entity(
-#     'rat'), Entity('goblin'), Entity('wolf')]
-# spawn_enemies(enemies, board0)
-# enemies[0].recieve_damage(enemies, player.deal_damage())
