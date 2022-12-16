@@ -2,7 +2,7 @@ from entities import Entity
 import util
 import ui
 
-SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4']
+SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4', '8', '9']
 SPACES_WITH_ITEMS = ['k', 'm']
 SPACED_BANNED_FROM_MOVING = ''
 PLAYER_SYMBOL = '@'
