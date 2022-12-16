@@ -74,6 +74,7 @@ class Entity:
         current_health: int = self.health if self.health >= 0 else 0
         print(
             f'{self.name[:-1]} has {current_health} health left')
+        Entity.instance[self.name]['health'] = current_health
         if self.health <= 0:
             Entity.instance.pop(self.name)
             Entity.spawned.pop(Entity.spawned.index(self.name))
