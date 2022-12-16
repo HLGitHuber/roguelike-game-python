@@ -9,11 +9,25 @@ SPACED_BANNED_FROM_MOVING = ''
 PLAYER_SYMBOL = '@'
 INVENTORY = {
     "keys": 0,
-    "medicine" : 3,
+    "cheese" : 2,
+    'meat': 0,
+    'pill': 0,
+    'fang': 1,
+    'shank': 0,
+    'blood vial': 0,
+    'magic hand' : 0,
+    'fur needle': 0
 }
 INVENTORY_DICT = {
     'k' : 'keys',
-    'm' : 'medicine'
+    'c': "cheese", 
+    'm': 'meat',
+    'p': 'pill',
+    'f': 'fang',
+    's': 'shank',
+    'b': 'blood vial',
+    'h': 'magic hand',
+    'n': 'fur needle'
 }
 
 
@@ -54,7 +68,6 @@ def add_to_inventory(inventory, item):
     return inventory
 
 def use_item(inventory):
-    print(inventory)
     my_key = util.key_pressed()
     inventory = INVENTORY
     
@@ -67,6 +80,7 @@ def use_item(inventory):
         elif inventory[item] > 0:
             permission = ui.ask_for_using(item)
             if permission:
+                item_action(item)
                 delete_from_inventory(inventory, item)
                 return 'used'
 
@@ -74,6 +88,48 @@ def delete_from_inventory(inventory, item):
     inventory = INVENTORY
     inventory[item] -= 1
     return inventory
+
+
+def item_action(item):
+    data = open('enemy_template.txt').read().splitlines()
+    table = data[1].split(';')
+    
+    if item == 'cheese':
+        hp = int(table[3])
+        hp+=10
+        table[3] = str(hp)
+    elif item == 'meat':
+        hp = int(table[3])
+        hp+=25
+        table[3] = str(hp)
+    elif item == 'pill':
+        strength = int(table[5])
+        strength+=1
+        table[5] = str(strength)
+    elif item == 'fang' or 'shank':
+        rolls = int(table[7])
+        rolls+=1
+        table[7] = str(rolls)
+    elif item == 'blood vial':
+        strength = int(table[5])
+        strength+=1
+        table[5] = str(strength)
+        rolls = int(table[7])
+        rolls+=1
+        table[7] = str(rolls)
+    elif item == 'fur needle':
+        rolls = int(table[7])
+        rolls+=2
+        table[7] = str(rolls)
+    elif item == 'magic hand':
+        dices = int(table[6])
+        dices+=2
+        table[6] = str(dices)
+
+    data[1] = ';'.join(table)
+    with open('enemy_template.txt', 'w') as file:
+        for element in data:
+            file.write(element + "\n")
 
 
 def move_left(board, player_coord):
@@ -181,21 +237,16 @@ def get_race():
     dwarf = 'player;@;65;1;9;(0,0);blood;1'
     data = open('enemy_template.txt').read().splitlines()
     
-    # if given_race == 'human':
-    #     data[1] = human
-    # elif given_race == 'elph':
-    #     data[1] = elph
-    # elif given_race == 'dwarf':
-    #     data[1] = dwarf
     table = data[1].split(';')
     
+
     character = Entity(table[0])
     print(character.name)
     print(character.health)
     return character
 
 
-get_race()
+#get_race()
 
 
 
