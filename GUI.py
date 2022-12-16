@@ -1,10 +1,8 @@
 import util
 import engine
-import ui
 import pygame
 import pygame_gui
-from pygame_gui.core import ObjectID
-from pygame_gui.windows.ui_console_window import UIConsoleWindow
+import entities
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -12,6 +10,9 @@ PLAYER_START_Y = 3
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
+BLOCK_WIDTH = 40
+BLOCK_HEIGHT = 40
+PANEL_HEIGHT = 240
 
 def create_player():
     '''
@@ -44,23 +45,82 @@ def create_inventory():
     }
     return inventory
 
-def moveTiles(self):
-    xmove = self.parent.dt * self.panning[0] * self.panning_speed
-    ymove = self.parent.dt * self.panning[1] * self.panning_speed
-    for tile in self.game_map:
-        tile.x += xmove
-        tile.y += ymove
-        tile.rect.x = int(tile.x)
-        tile.rect.y = int(tile.y)
-        tile.pos = (tile.rect.x, tile.rect.y)
+'''
+0 - podłoga
+1 - ziemia
+2 - trawa
+3 - żwir
+4 - most
+5 - lawa
+6 - woda
+7 - ściana
+8 - dziura
+9 - brama
 
+mobki TODO
+R W G D B T
+
+RGB:
+6 = 155, 194, 230
+8 = 38, 38, 38
+5 = 128, 0, 0
+4 = 128, 96, 0
+3 = 197, 197, 197
+2 = 169, 208, 142
+1 = 191, 143, 0
+0 = 128, 128, 128
+7 = 70, 0, 0
+9 = 112, 48, 160
+'''
+
+def paint_board(board,background,top_player,left_player,player_coord,window_size):
+    color_of_outside = (0,0,0)
+    if board[0][0] == '6':
+        color_of_outside = (155, 194, 230)
+    elif board[0][0] == '5':
+        color_of_outside = (128, 0, 0)
+    pygame.draw.rect(background,color_of_outside,(0,0,window_size[0],window_size[1]))
+    top = top_player - (int(player_coord[0])*BLOCK_HEIGHT)
+    for row in board:
+        left = left_player - (int(player_coord[1])*BLOCK_WIDTH)
+        for element in row:
+            if element == '#':
+                pygame.draw.rect(background,(0,0,255),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == 'G':
+                pygame.draw.rect(background,(0,255,100),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '@':
+                pygame.draw.rect(background,(255,0,0),(left_player,top_player,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '6':
+                pygame.draw.rect(background,(155, 194, 230),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '8':
+                pygame.draw.rect(background,(38, 38, 38),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '5':
+                pygame.draw.rect(background,(128, 0, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '4':
+                pygame.draw.rect(background,(128, 96, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '3':
+                pygame.draw.rect(background,(197, 197, 197),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '2':
+                pygame.draw.rect(background,(169, 208, 142),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '1':
+                pygame.draw.rect(background,(191, 143, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '0':
+                pygame.draw.rect(background,(128, 128, 128),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '9':
+                pygame.draw.rect(background,(112, 48, 160),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            elif element == '7':
+                pygame.draw.rect(background,(70, 0, 0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            else:
+                pygame.draw.rect(background,(0,0,0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
+            left += BLOCK_WIDTH
+        top += BLOCK_HEIGHT
 
 def main():
     pygame.init()
     
     pygame.display.set_caption('Fight The Troll')
     
-    window_size = (800,600)
+    window_size = (1024,768)
     window_surface = pygame.display.set_mode(window_size)
     background = pygame.Surface(window_size)
     
@@ -68,51 +128,76 @@ def main():
     
     clock = pygame.time.Clock()
     
-    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,400,800,200),
-                                          manager=manager)
+    uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-3,-PANEL_HEIGHT-3,window_size[0]+6,PANEL_HEIGHT+6),
+                                          manager=manager,
+                                          anchors={'bottom': 'bottom'},)
     
-    name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
-                                                         placeholder_text='Enter your name',
-                                                         manager=manager,
-                                                         container=uipanel,
-                                                         anchors={'centerx': 'centerx',
-                                                                  'centery': 'centery'})    
+    log_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,40,(window_size[0]/4)*3,200),
+                                          manager=manager,
+                                          container=uipanel,)
+                                          
+    
+    stats_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,0,window_size[0],40),
+                                              manager=manager,
+                                              container=uipanel,)
+    
+    inv_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-window_size[0]/4,-200,window_size[0]/4,200),
+                                              manager=manager,
+                                              container=uipanel,
+                                              anchors={'bottom':'bottom',
+                                                       'right': 'right'})
+                                              
+                                              
+    
+    text="""
+     ..    ..:::..^~?!        
+     7?!!~~~~^^^^~77J~        
+     .JY?~^::::::::^77.       
+      7?~^~J^:::7J^^~7?.      
+     .?7!~!?~^^^~~7~!!77      
+     :?7?!!!~~~^~~~~!!?~      
+      !J?7!!!!~~~~!!!77~:     
+     !!~7!~~^::::::^^~!^!^    
+    !7^7?~:.........:~J~:!^   
+   ^?^:?7!::.......:^!Y!^^7:  
+   77~~7J!~^^^^^^^^~!7Y?!!!.  
+   .^~~J?!!!7?!~?7!!!!J^ .    
+       :!!!!!!. !!!!!7!       
+        """
+    text_log = pygame_gui.elements.UITextBox(text,
+                                             relative_rect= pygame.Rect(-3,-3,(window_size[0]/4*3),200),
+                                             container=log_panel,
+                                             manager=manager)
+    
+    text_inv = pygame_gui.elements.UITextBox(text,
+                                             relative_rect= pygame.Rect(-3,-3,window_size[0]/4,200),
+                                             container=inv_panel,
+                                             manager=manager)
+    
+    # name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
+    #                                                      placeholder_text='Enter your name',
+    #                                                      manager=manager,
+    #                                                      container=uipanel,
+    #                                                      anchors={'centerx': 'centerx',
+    #                                                               'centery': 'centery'})    
     player = create_player()
-    board = read_table_from_file('roguelike-game-python-AdamNowicki22/maps/map0.txt')
-    # TODO: usunac pierwszy path
-    
-    BLOCK_WIDTH = 20
-    BLOCK_HEIGHT = 40
-    
-    #test putting player on board
+    board = read_table_from_file('maps/map2.txt')
     player_coord = player['player_cord']
+    engine.put_player_on_board(board,player)
     
-    
-    
+    top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
+    left_player = (window_size[0]-BLOCK_WIDTH)/2
     # inventory = create_inventory()
     player_name = ''
     util.clear_screen()
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
-        concatenation = player_coord[1]+1
-        board[player_coord[0]] = board[player_coord[0]][:player_coord[1]] +'@'+ board[player_coord[0]][concatenation:]
-    
-        top = 0
-        for row in board:
-            left = 0
-            for element in row:
-                if element == '#':
-                    pygame.draw.rect(background,(0,0,255),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
-                elif element == 'G':
-                    pygame.draw.rect(background,(0,255,100),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
-                elif element == '@':
-                    pygame.draw.rect(background,(0,0,0),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
-                else:
-                    pygame.draw.rect(background,(125,40,90),(left,top,BLOCK_WIDTH,BLOCK_HEIGHT))
-                left += BLOCK_WIDTH
-            top += BLOCK_HEIGHT
-            
+        
+        #statistics = f'HP {entities.Entity} / {entities.player.maxhealth}'
+        
+        paint_board(board,background,top_player,left_player,player_coord,window_size)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
@@ -127,11 +212,11 @@ def main():
                     engine.move_up(board,player_coord)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board,player_coord)
-                
-            if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
-                if event.ui_element == name_input_box:
-                    player_name = event.text
-                    print(player_name)
+            
+            # if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
+            #     if event.ui_element == name_input_box:
+            #         player_name = event.text
+            #         print(player_name)
                     
             manager.process_events(event)
         
@@ -143,9 +228,8 @@ def main():
         pygame.display.update()
 
         # TODO ui.display_inventory(inventory)
-        # TODO Panning for map (cuz map too big for screen) TODO maybe put it on another pannel?
-        # TODO maybe logs on right?
         # TODO bottom panel as interface (like inventory) (need to show it somehow :| )
+        # TODO testowa walka z bossem (eventy, znikanie mapy i wiekszy log) (smaller font)
         
         
 if __name__ == '__main__':
