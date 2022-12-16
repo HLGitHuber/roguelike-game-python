@@ -1,6 +1,8 @@
-name;symbol;hp;dice;roll;location;loot table
-player;@;50;1;6;(0,0);blood,1
-rat;r;10;1;3;(0,0);cheese,1
-wolf;w;20;1;6;(0,0);meat,1
-goblin;g;30;2;4;(0,0);gold,1
-bandit;b;50;3;3;(0,0);key,1
+name;symbol;exp;hp;maxhp;str;dice;roll;location;loot table
+player;@;0;50;50;1;1;6;(0,0);nothing,100
+rat;R;10;10;10;0;1;3;(0,0);cheese,pill,nothing,40,50,100
+bat;B;25;20;20;0;1;6;(0,0);meat,pill,nothing,30,70,100
+wolf;W;30;30;30;1;2;3;(0,0);meat,fang,nothing,50,70,100
+goblin;G;70;30;30;2;2;6;(0,0);cheese,shank,nothing,25,65,100
+demon;D;150;50;50;5;3;6;(0,0);blood vial,magic hand,nothing,40,50,100
+troll;T;250;100;100;10;3;10;(0,0);meat,fur needle,nothing,20,70,100

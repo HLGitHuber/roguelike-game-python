@@ -2,7 +2,7 @@
 
 
 from typing import Any
-from random import randint
+from random import randint, choices
 
 
 class Entity:
@@ -17,11 +17,15 @@ class Entity:
         template: list[str] = self.get_entity_type(name)
         self.name: str = self.get_name(name)
         self.symbol: str = template[1]
-        self.health: int = int(template[2])
-        self.dice: int = int(template[3])
-        self.roll: int = int(template[4])
+        self.exp: int = int(template[2])
+        self.health: int = int(template[3])
+        self.maxhealth: int = int(template[4])
+        self.str: int = int(template[5])
+        self.dice: int = int(template[6])
+        self.roll: int = int(template[7])
         self.location: tuple[int, int] = (0, 0)
-        self.loot: str = template[6]
+        self.loot: list[str] = template[9].split(',')
+        self.chance: list[int] = []
         Entity.instance.update(
             {self.name: {'health': self.health, 'location': self.location}})
 
@@ -103,6 +107,9 @@ class Entity:
         board[i][j] = self.symbol
         return i, j
 
+    def drop_item(self):
+        pass
+
 
 def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
                   ) -> None:
@@ -113,27 +120,27 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
         level_board[row][col] = enemy.symbol
 
 
-board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
-                            '#', '#', '#', '#', '#', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '.', '.', '.', '.', '.',
-                               '.', '.', '.', '.', '.', '#'],
-                           ['#', '#', '#', '#', '#', '#',
-                               '#', '#', '#', '#', '#', '#']]
-player: Entity = Entity('player')
-player.spawn(board0)
-enemies: list[Entity] = [Entity('rat'), Entity(
-    'rat'), Entity('goblin'), Entity('wolf')]
-spawn_enemies(enemies, board0)
-enemies[0].recieve_damage(enemies, player.deal_damage())
+# board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
+#                             '#', '#', '#', '#', '#', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '.', '.', '.', '.', '.',
+#                                '.', '.', '.', '.', '.', '#'],
+#                            ['#', '#', '#', '#', '#', '#',
+#                                '#', '#', '#', '#', '#', '#']]
+# player: Entity = Entity('player')
+# player.spawn(board0)
+# enemies: list[Entity] = [Entity('rat'), Entity(
+#     'rat'), Entity('goblin'), Entity('wolf')]
+# spawn_enemies(enemies, board0)
+# enemies[0].recieve_damage(enemies, player.deal_damage())
