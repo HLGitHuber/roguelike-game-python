@@ -74,6 +74,7 @@ class Entity:
         current_health: int = self.health if self.health >= 0 else 0
         print(
             f'{self.name[:-1]} has {current_health} health left')
+        Entity.instance[self.name]['health'] = current_health
         if self.health <= 0:
             Entity.instance.pop(self.name)
             Entity.spawned.pop(Entity.spawned.index(self.name))
@@ -93,11 +94,12 @@ class Entity:
         """Place entity on board."""
         i: int = randint(0, len(board)-1)
         j: int = randint(0, len(board[0])-1)
-        while board[i][j] != '.':
+        while board[i][j] not in ['0', '1', '2', '3', '4']:
             i = randint(0, len(board)-1)
             j = randint(0, len(board[0])-1)
         Entity.instance[self.name]['location'] = i, j
         Entity.spawned.append(self.name)
+        self.location = i, j
         board[i][j] = self.symbol
         return i, j
 
@@ -111,27 +113,27 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
         level_board[row][col] = enemy.symbol
 
 
-# board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
-#                             '#', '#', '#', '#', '#', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '.', '.', '.', '.', '.',
-#                                '.', '.', '.', '.', '.', '#'],
-#                            ['#', '#', '#', '#', '#', '#',
-#                                '#', '#', '#', '#', '#', '#']]
-# player: Entity = Entity('player')
-# player.spawn(board0)
-# enemies: list[Entity] = [Entity('rat'), Entity(
-#     'rat'), Entity('goblin'), Entity('wolf')]
-# spawn_enemies(enemies, board0)
-# enemies[0].recieve_damage(enemies, player.deal_damage())
+board0: list[list[str]] = [['#', '#', '#', '#', '#', '#',
+                            '#', '#', '#', '#', '#', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '.', '.', '.', '.', '.',
+                               '.', '.', '.', '.', '.', '#'],
+                           ['#', '#', '#', '#', '#', '#',
+                               '#', '#', '#', '#', '#', '#']]
+player: Entity = Entity('player')
+player.spawn(board0)
+enemies: list[Entity] = [Entity('rat'), Entity(
+    'rat'), Entity('goblin'), Entity('wolf')]
+spawn_enemies(enemies, board0)
+enemies[0].recieve_damage(enemies, player.deal_damage())
