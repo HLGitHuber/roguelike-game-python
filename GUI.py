@@ -203,6 +203,27 @@ def main():
                 is_running = False
             
             #character movement
+            if board == board2 and player_coord == [0,2]:
+                board = board1
+                player_coord == [13,35]
+            if board == board2 and player_coord == [0,3]:
+                board = board1
+                player_coord == [13,36]
+            if board == board0 and player_coord == [10,32]:
+                board = board1
+                player_coord = [5,5]
+            if board == board1 and player_coord == [15,35]:
+                board = board2
+                player_coord = [1,2]
+            if board == board1 and player_coord == [15,36]:
+                board = board2
+                player_coord = [1,3]
+            if board == board2 and player_coord == [0, 30]:
+                board = board3
+                player_coord = [4,0]
+            if board == board3 and player_coord == [30, 3]:
+                board = board4
+                player_coord = [27,26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board,player_coord)
