@@ -94,7 +94,7 @@ class Entity:
         """Place entity on board."""
         i: int = randint(0, len(board)-1)
         j: int = randint(0, len(board[0])-1)
-        while board[i][j] != '.':
+        while board[i][j] not in ['0', '1', '2', '3', '4']:
             i = randint(0, len(board)-1)
             j = randint(0, len(board[0])-1)
         Entity.instance[self.name]['location'] = i, j
