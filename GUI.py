@@ -12,7 +12,7 @@ BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 BLOCK_WIDTH = 40
 BLOCK_HEIGHT = 40
-PANEL_HEIGHT = 200
+PANEL_HEIGHT = 240
 
 def create_player():
     '''
@@ -131,6 +131,24 @@ def main():
     uipanel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-3,-PANEL_HEIGHT-3,window_size[0]+6,PANEL_HEIGHT+6),
                                           manager=manager,
                                           anchors={'bottom': 'bottom'},)
+    
+    log_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,40,(window_size[0]/4)*3,200),
+                                          manager=manager,
+                                          container=uipanel,)
+                                          
+    
+    stats_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(0,0,window_size[0],40),
+                                              manager=manager,
+                                              container=uipanel,)
+    
+    inv_panel = pygame_gui.elements.UIPanel(relative_rect= pygame.Rect(-window_size[0]/4,-200,window_size[0]/4,200),
+                                              manager=manager,
+                                              container=uipanel,
+                                              anchors={'bottom':'bottom',
+                                                       'right': 'right'})
+                                              
+                                              
+    
     text="""
      ..    ..:::..^~?!        
      7?!!~~~~^^^^~77J~        
@@ -146,9 +164,14 @@ def main():
    .^~~J?!!!7?!~?7!!!!J^ .    
        :!!!!!!. !!!!!7!       
         """
-    text_box = pygame_gui.elements.UITextBox(text,
-                                             relative_rect= pygame.Rect(-3,-3,window_size[0],PANEL_HEIGHT+6),
-                                             container=uipanel,
+    text_log = pygame_gui.elements.UITextBox(text,
+                                             relative_rect= pygame.Rect(-3,-3,(window_size[0]/4*3),200),
+                                             container=log_panel,
+                                             manager=manager)
+    
+    text_inv = pygame_gui.elements.UITextBox(text,
+                                             relative_rect= pygame.Rect(-3,-3,window_size[0]/4,200),
+                                             container=inv_panel,
                                              manager=manager)
     
     # name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
@@ -171,7 +194,7 @@ def main():
     while is_running:
         time_delta = clock.tick(60)/1000.0
         
-        #TODO statistics = f'HP {entities.player.health} / {entities.player.maxhealth}'
+        #statistics = f'HP {entities.Entity} / {entities.player.maxhealth}'
         
         paint_board(board,background,top_player,left_player,player_coord,window_size)
         
@@ -183,20 +206,12 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board,player_coord)
-                    text = 'You moved left\n'
-                    text_box.append_html_text(text)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board,player_coord)
-                    text = 'You moved right\n'
-                    text_box.append_html_text(text)
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board,player_coord)
-                    text = 'You moved up\n'
-                    text_box.append_html_text(text)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board,player_coord)
-                    text = 'You moved down\n'
-                    text_box.append_html_text(text)
             
             # if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
             #     if event.ui_element == name_input_box:
