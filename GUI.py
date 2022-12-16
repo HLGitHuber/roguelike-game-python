@@ -24,7 +24,7 @@ def create_player():
     '''
     player = {
         'player_symbol' : '@',
-        'player_cord' :[5, 5]
+        'player_cord' :[5, 30]
     }
     return player
 
@@ -181,9 +181,19 @@ def main():
     #                                                      anchors={'centerx': 'centerx',
     #                                                               'centery': 'centery'})    
     player = create_player()
-    board = read_table_from_file('maps/map2.txt')
+    board0 = read_table_from_file('maps/map0.txt')
+    board1 = read_table_from_file('maps/map1.txt')
+    board2 = read_table_from_file('maps/map2.txt')
+    board3 = read_table_from_file('maps/map3.txt')
+    board4 = read_table_from_file('maps/map4.txt')
+    board = board0
     player_coord = player['player_cord']
     engine.put_player_on_board(board,player)
+
+    def change_map(board, player_coord):
+        pass
+      
+
     
     top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
     left_player = (window_size[0]-BLOCK_WIDTH)/2
@@ -203,6 +213,30 @@ def main():
                 is_running = False
             
             #character movement
+            if board == board2 and player_coord == [0,2]:
+                player_coord = [14,35]
+                board = board1
+            if board == board2 and player_coord == [0,3]:
+                player_coord = [14,36]
+                board = board1
+            if board == board0 and player_coord == [10,32]:
+                board = board1
+                player_coord = [5,5]
+            if board == board1 and player_coord == [15,35]:
+                board = board2
+                player_coord = [1,2]
+            if board == board1 and player_coord == [15,36]:
+                board = board2
+                player_coord = [1,3]
+            if board == board2 and player_coord == [0, 30]:
+                board = board3
+                player_coord = [3,1]
+            if board == board3 and player_coord == [3,0]:
+                board = board2
+                player_coord = [1,30]
+            if board == board3 and player_coord == [30, 3]:
+                board = board4
+                player_coord = [27,26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board,player_coord)
@@ -212,6 +246,7 @@ def main():
                     engine.move_up(board,player_coord)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board,player_coord)
+
             
             # if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
             #     if event.ui_element == name_input_box:
