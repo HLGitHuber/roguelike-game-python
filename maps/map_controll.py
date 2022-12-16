@@ -16,10 +16,9 @@ enemies3: list[Any] = [ent.Entity('demon') for _ in range(
 def get_board(filename: str) -> list[list[str]]:
     """Get file content."""
     with open(filename, 'r', encoding='UTF-8') as file:
-        string_map: list[list[str]] = [list(line)[:-1] for
+        string_map: list[list[str]] = [list(list(line)) for
                                        line in file.readlines()]
-        map_proper: list[list[str]] = [list(line) for line in string_map]
-        return map_proper
+        return string_map
 
 
 base_map0: list[list[str]] = get_board('maps/map0.txt')
@@ -34,6 +33,6 @@ temp_map2: list[list[str]] = get_board('maps/map2.txt')
 temp_map3: list[list[str]] = get_board('maps/map3.txt')
 
 ent.spawn_enemies(enemies0, temp_map0)
-ent.spawn_enemies(enemies1, temp_map1)
-ent.spawn_enemies(enemies2, temp_map2)
-ent.spawn_enemies(enemies3, temp_map3)
+# ent.spawn_enemies(enemies1, temp_map1)
+# ent.spawn_enemies(enemies2, temp_map2)
+# ent.spawn_enemies(enemies3, temp_map3)
