@@ -45,6 +45,15 @@ def create_inventory():
     }
     return inventory
 
+def convert_dict_to_str(dictionary,string,seperator=': '):
+    for key, value in dictionary.items():
+        string += key
+        string += seperator
+        string += str(value)
+        string += '\n'
+    return string
+
+
 '''
 0 - podłoga
 1 - ziemia
@@ -169,17 +178,19 @@ def main():
                                              container=log_panel,
                                              manager=manager)
     
-    text_inv = pygame_gui.elements.UITextBox(text,
+    inventory_text = ''
+    text_inv = pygame_gui.elements.UITextBox('Inventory:\n',
                                              relative_rect= pygame.Rect(-3,-3,window_size[0]/4,200),
                                              container=inv_panel,
                                              manager=manager)
     
-    # name_input_box = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((0, 0), (300, 30)),
-    #                                                      placeholder_text='Enter your name',
-    #                                                      manager=manager,
-    #                                                      container=uipanel,
-    #                                                      anchors={'centerx': 'centerx',
-    #                                                               'centery': 'centery'})    
+    stats = f''
+    text_stats = pygame_gui.elements.UITextBox(stats,
+                                             relative_rect= pygame.Rect(-3,-3,window_size[0],40),
+                                             container=stats_panel,
+                                             manager=manager)
+    
+    
     player = create_player()
     board = read_table_from_file('maps/map2.txt')
     player_coord = player['player_cord']
@@ -187,13 +198,16 @@ def main():
     
     top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
     left_player = (window_size[0]-BLOCK_WIDTH)/2
-    # inventory = create_inventory()
+    inventory = create_inventory()
+    inventory_text = convert_dict_to_str(inventory,inventory_text)
+    text_inv.append_html_text(inventory_text)
     player_name = ''
     util.clear_screen()
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
         
+       
         #statistics = f'HP {entities.Entity} / {entities.player.maxhealth}'
         
         paint_board(board,background,top_player,left_player,player_coord,window_size)
