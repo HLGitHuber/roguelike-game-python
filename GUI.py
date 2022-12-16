@@ -147,7 +147,7 @@ def main():
        :!!!!!!. !!!!!7!       
         """
     text_box = pygame_gui.elements.UITextBox(text,
-                                             relative_rect= pygame.Rect(-3,-3,window_size[0],PANEL_HEIGHT),
+                                             relative_rect= pygame.Rect(-3,-3,window_size[0],PANEL_HEIGHT+6),
                                              container=uipanel,
                                              manager=manager)
     
