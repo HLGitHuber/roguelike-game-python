@@ -26,7 +26,7 @@ def create_player():
     '''
     player = {
         'player_symbol': '@',
-        'player_cord': [5, 30]
+        'player_cord': [5, 5]
     }
     return player
 
@@ -213,12 +213,7 @@ def main():
                                                manager=manager)
 
     player = create_player()
-    board0 = read_table_from_file('maps/map0.txt')
-    board1 = read_table_from_file('maps/map1.txt')
-    board2 = read_table_from_file('maps/map2.txt')
-    board3 = read_table_from_file('maps/map3.txt')
-    board4 = read_table_from_file('maps/map4.txt')
-    board = board0
+    board = mc.temp_map0
     player_coord = player['player_cord']
     engine.put_player_on_board(board, player)
 
@@ -248,10 +243,10 @@ def main():
             # character movement
             if board == mc.temp_map2 and player_coord == [0, 2]:
                 board = mc.temp_map1
-                player_coord == [13, 35]
+                player_coord = [13, 35]
             if board == mc.temp_map2 and player_coord == [0, 3]:
                 board = mc.temp_map1
-                player_coord == [13, 36]
+                player_coord = [13, 36]
             if board == mc.temp_map0 and player_coord == [10, 32]:
                 board = mc.temp_map1
                 player_coord = [5, 5]
