@@ -214,20 +214,10 @@ def main():
     inventory_text = convert_dict_to_nice_str(inventory, inventory_text)
     new_inventory_text = ''
     text_inv.set_text(inventory_text)
-    # player_name = ''
     
-    hp = player.health
-    strength = player.str
     mindamage = player.dice*1+player.str
     maxdamage = player.dice*player.roll+player.str
-    dmg = str(mindamage) +' - '+ str(maxdamage)
-    stats_dict = {
-        'HP': hp,
-        'STR': strength,
-        'DMG': dmg
-    }
-    # stats = convert_dict_to_nice_str(stats_dict,stats)
-    stats = f'HP {hp} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
+    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
     new_stats = ''
     text_stats.set_text(stats)
     
