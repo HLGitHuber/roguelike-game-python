@@ -145,12 +145,15 @@ def move_left(board, player_coord, org_board, text_log):
         player_coord[1] += - 1
     elif board[player_coord[0]][player_coord[1]-1] in ENEMIES:
         message = attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
-        if message.split(" ")[-1] == 'killed\n':
-            board[player_coord[0]][player_coord[1]-1] = org_board[player_coord[0]][player_coord[1]-1]
-            text_log.append_html_text(message)
-        else:
-            message2 = attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
-            text_log.append_html_text(message2)
+        try:
+            if message.split(" ")[-1] == 'killed\n':
+                board[player_coord[0]][player_coord[1]-1] = org_board[player_coord[0]][player_coord[1]-1]
+                text_log.append_html_text(message)
+            else:
+                message2 = attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
+                text_log.append_html_text(message2)
+        except AttributeError:
+            pass
 
 
 
@@ -163,12 +166,15 @@ def move_right(board, player_coord, org_board, text_log):
         player_coord[1] += 1
     elif board[player_coord[0]][player_coord[1]+1] in ENEMIES:
         message = attack_monster([player_coord[0],player_coord[1]+1], BOARD_NO)
-        if message.split(" ")[-1] == 'killed\n':
-            board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
-            text_log.append_html_text(message)
-        else:
-            message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
-            text_log.append_html_text(message2)
+        try:
+            if message.split(" ")[-1] == 'killed\n':
+                board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
+                text_log.append_html_text(message)
+            else:
+                message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
+                text_log.append_html_text(message2)
+        except AttributeError:
+            pass
 
 
 
@@ -181,12 +187,15 @@ def move_up(board, player_coord, org_board, text_log):
         player_coord[0] += -1
     elif board[player_coord[0]-1][player_coord[1]] in ENEMIES:
         message = attack_monster([player_coord[0]-1,player_coord[1]], BOARD_NO)
-        if message.split(" ")[-1] == 'killed\n':
-            board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
-            text_log.append_html_text(message)
-        else:
-            message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
-            text_log.append_html_text(message2)
+        try:
+            if message.split(" ")[-1] == 'killed\n':
+                board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
+                text_log.append_html_text(message)
+            else:
+                message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
+                text_log.append_html_text(message2)
+        except AttributeError:
+            pass
 
 
 
@@ -199,12 +208,15 @@ def move_down(board, player_coord, org_board, text_log):
         player_coord[0] += 1
     elif board[player_coord[0]+1][player_coord[1]] in ENEMIES:
         message = attack_monster([player_coord[0]+1,player_coord[1]], BOARD_NO)
-        if message.split(" ")[-1] == 'killed\n':
-            board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
-            text_log.append_html_text(message)
-        else:
-            message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
-            text_log.append_html_text(message2)
+        try:
+            if message.split(" ")[-1] == 'killed\n':
+                board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
+                text_log.append_html_text(message)
+            else:
+                message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
+                text_log.append_html_text(message2)
+        except AttributeError:
+            pass
 
 def open_door():
     print('If you want to go through door, you need to use a key. Press k to do it.')

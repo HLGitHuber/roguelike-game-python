@@ -31,14 +31,13 @@ class Entity:
         instance.update(
             {self.name: {'health': self.maxhealth, 'location': self.location}})
 
-    def __getitem__(self, attr):
-        return self
-
-    def remove_from_enemy_list(self, enemies_list: list[Any], index: int) -> None:
+    def remove_from_enemy_list(self, enemies_list: list[Any],
+                               index: int) -> None:
         """Delete entity object from enemies list."""
-        # global last_killed
-        # last_killed = [enemies_list[used_names.index(self.name)]]
-        del enemies_list[used_names[index].index(self.name)]
+        try:
+            del enemies_list[used_names[index].index(self.name)]
+        except IndexError:
+            pass
 
     def get_name(self, name: str, index: int) -> str:
         """Get unique mob name."""
