@@ -244,10 +244,10 @@ def main():
             # character movement
             if board == mc.temp_map2 and player_coord == [0, 2]:
                 board = mc.temp_map1
-                player_coord = [13, 35]
+                player_coord = [14, 35]
             if board == mc.temp_map2 and player_coord == [0, 3]:
                 board = mc.temp_map1
-                player_coord = [13, 36]
+                player_coord = [14, 36]
             if board == mc.temp_map0 and player_coord == [10, 32]:
                 board = mc.temp_map1
                 player_coord = [5, 5]
@@ -259,7 +259,7 @@ def main():
                 player_coord = [1, 3]
             if board == mc.temp_map2 and player_coord == [0, 30]:
                 board = mc.temp_map3
-                player_coord = [4, 0]
+                player_coord = [3, 1]
             if board == mc.temp_map3 and player_coord == [30, 3]:
                 board = mc.base_map4
                 player_coord = [27, 26]
