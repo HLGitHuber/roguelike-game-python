@@ -138,6 +138,14 @@ def move_right(board, player_coord, org_board):
         add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]][player_coord[1]+1] in PASSAGE:
         player_coord[1] += 1
+    elif board[player_coord[0]][player_coord[1]+1] in ENEMIES:
+        message = attack_monster([player_coord[0],player_coord[1]+1], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
+        else:
+            message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
+            print(message2)
+
 
 
 def move_up(board, player_coord, org_board):
@@ -154,6 +162,14 @@ def move_up(board, player_coord, org_board):
         add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]-1][player_coord[1]] in PASSAGE:
         player_coord[0] += -1
+    elif board[player_coord[0]-1][player_coord[1]] in ENEMIES:
+        message = attack_monster([player_coord[0]-1,player_coord[1]], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
+        else:
+            message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
+            print(message2)
+
 
 
 def move_down(board, player_coord, org_board):
@@ -171,6 +187,14 @@ def move_down(board, player_coord, org_board):
         # print(INVENTORY)
     elif board[player_coord[0]+1][player_coord[1]] in PASSAGE:
         player_coord[0] += 1
+    elif board[player_coord[0]+1][player_coord[1]] in ENEMIES:
+        message = attack_monster([player_coord[0]+1,player_coord[1]], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
+        else:
+            message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
+            print(message2)
+
 
 
 def display(board):
