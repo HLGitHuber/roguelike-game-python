@@ -13,13 +13,13 @@ ENEMIES = ['R', 'W', 'G', 'D', 'B', 'T']
 PASSAGE = ['8', '9']
 PLAYER_SYMBOL = '@'
 INVENTORY = {
-    "cheese": 2,
+    "cheese": 10,
     'meat': 0,
     'pill': 0,
-    'fang': 1,
+    'fang': 0,
     'shank': 0,
     'blood vial': 0,
-    'magic hand': 5,
+    'magic hand': 10,
     'fur needle': 0
 }
 INVENTORY_DICT = {
