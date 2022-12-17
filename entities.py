@@ -131,7 +131,8 @@ class Entity:
 
     def drop_item(self) -> str:
         """Roll item drop from drop table."""
-        item: str = choices(self.loot, cum_weights=self.chance)[0]
+        item: str = choices(self.loot, cum_weights=self.chance)
+        print(item)
         return item
 
 

@@ -156,6 +156,7 @@ def move_left(board, player_coord, org_board):
         message = attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]][player_coord[1]-1] = org_board[player_coord[0]][player_coord[1]-1]
+            print(message)
         else:
             message2 = attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
             print(message2)
@@ -180,6 +181,7 @@ def move_right(board, player_coord, org_board):
         message = attack_monster([player_coord[0],player_coord[1]+1], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
+            print(message)
         else:
             message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
             print(message2)
@@ -204,6 +206,7 @@ def move_up(board, player_coord, org_board):
         message = attack_monster([player_coord[0]-1,player_coord[1]], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
+            print(message)
         else:
             message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
             print(message2)
@@ -229,8 +232,10 @@ def move_down(board, player_coord, org_board):
         message = attack_monster([player_coord[0]+1,player_coord[1]], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
+            print(message)
         else:
             message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
+            print(message2)
 
 def open_door():
     print('If you want to go through door, you need to use a key. Press k to do it.')
