@@ -11,6 +11,7 @@ enemies2: list[Any] = [ent.Entity('goblin') for _ in range(
 enemies3: list[Any] = [ent.Entity('demon') for _ in range(
     10)] + [ent.Entity('goblin') for _ in range(10)] + [ent.Entity('bat')
                                                         for _ in range(20)]
+enemies: list[list[Any]] = [enemies0, enemies1, enemies2, enemies3]
 
 
 def get_board(filename: str) -> list[list[str]]:
@@ -26,11 +27,16 @@ base_map1: list[list[str]] = get_board('maps/map1.txt')
 base_map2: list[list[str]] = get_board('maps/map2.txt')
 base_map3: list[list[str]] = get_board('maps/map3.txt')
 base_map4: list[list[str]] = get_board('maps/map4.txt')
+base_maps: list[list[list[str]]] = [base_map0,
+                                    base_map1, base_map2, base_map3, base_map4]
 
 temp_map0: list[list[str]] = get_board('maps/map0.txt')
 temp_map1: list[list[str]] = get_board('maps/map1.txt')
 temp_map2: list[list[str]] = get_board('maps/map2.txt')
 temp_map3: list[list[str]] = get_board('maps/map3.txt')
+temp_map4: list[list[str]] = get_board('maps/map4.txt')
+temp_maps: list[list[list[str]]] = [temp_map0,
+                                    temp_map1, temp_map2, temp_map3, temp_map4]
 
 ent.spawn_enemies(enemies0, temp_map0)
 ent.spawn_enemies(enemies1, temp_map1)
