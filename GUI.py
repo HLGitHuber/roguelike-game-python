@@ -225,7 +225,7 @@ def main():
 
     mindamage = engine.PLAYER.dice*1+engine.PLAYER.str
     maxdamage = engine.PLAYER.dice*engine.PLAYER.roll+engine.PLAYER.str
-    stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}'
+    stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}    EXP {engine.PLAYER.exp}'
     new_stats = ''
     text_stats.set_text(stats)
 
@@ -245,7 +245,6 @@ def main():
 
         paint_board(board, background, top_player,
                     left_player, player_coord, window_size)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
@@ -300,28 +299,28 @@ def main():
                     engine.move_down(board, player_coord, org_board)
                     refresh_text_box()
                 if event.key == ord('1'):
-                    engine.item_action('cheese')
+                    engine.item_action('cheese',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('2'):
-                    engine.item_action('meat')
+                    engine.item_action('meat',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('3'):
-                    engine.item_action('pill')
+                    engine.item_action('pill',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('4'):
-                    engine.item_action('fang')
+                    engine.item_action('fang',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('5'):
-                    engine.item_action('shank')
+                    engine.item_action('shank',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('6'):
-                    engine.item_action('blood vial')
+                    engine.item_action('blood vial',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('7'):
-                    engine.item_action('magic hand')
+                    engine.item_action('magic hand',inventory,text_log)
                     refresh_text_box()
                 if event.key == ord('8'):
-                    engine.item_action('fur needle')
+                    engine.item_action('fur needle',inventory,text_log)
                     refresh_text_box()
 
             manager.process_events(event)
