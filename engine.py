@@ -147,7 +147,8 @@ def move_left(board, player_coord):
         item = INVENTORY_DICT[item]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
         add_to_inventory(INVENTORY, item)
-
+    elif board[player_coord[0]][player_coord[1]-1] in PASSAGE:
+        player_coord[1] +=- 1
 
 def move_right(board, player_coord):
     if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
@@ -180,7 +181,8 @@ def move_up(board, player_coord):
         item = INVENTORY_DICT[item]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
         add_to_inventory(INVENTORY, item)
-
+    elif board[player_coord[0]-1][player_coord[1]] in PASSAGE:
+        player_coord[0] +=-1
 
 def move_down(board, player_coord):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
@@ -218,30 +220,6 @@ board[3][5] = 'k'
 player_starting_coord = [3, 3]
 board[player_starting_coord[0]][player_starting_coord[1]] = PLAYER_SYMBOL
 player_coord = player_starting_coord
-
-# display(board)
-# my_key = util.key_pressed()
-# while my_key != 'q':
-#     if my_key == 'd':
-#         util.clear_screen()
-#         move_right(board, player_coord)
-#         display(board)
-#         my_key = util.key_pressed()
-#     if my_key == 'a':
-#         util.clear_screen()
-#         move_left(board, player_coord)
-#         display(board)
-#         my_key = util.key_pressed()
-#     if my_key == 's':
-#         util.clear_screen()
-#         move_down(board, player_coord)
-#         display(board)
-#         my_key = util.key_pressed()
-#     if my_key == 'w':
-#         util.clear_screen()
-#         move_up(board, player_coord)
-#         display(board)
-#         my_key = util.key_pressed()
 
 
 def use_item(inventory):
