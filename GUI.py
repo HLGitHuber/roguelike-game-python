@@ -17,7 +17,9 @@ PANEL_HEIGHT = 240
 
 
 def create_player():
-    return entities.Entity('player')
+    player = entities.Entity('player')
+    player.location = [5, 5]
+    return player
 
 
 def read_table_from_file(file_name):
@@ -198,7 +200,7 @@ def main():
 
     player = create_player()
     board = mc.temp_map0
-    player_coord = player['player_cord']
+    player_coord = player.location
     engine.put_player_on_board(board, player)
 
     def change_map(board, player_coord):

@@ -3,7 +3,6 @@
 
 from typing import Any
 from random import randint, choices
-import maps.map_controll as mc
 
 
 class Entity:

@@ -59,7 +59,7 @@ def put_player_on_board(board, player):
     '''
     cord_1 = 5
     cord_2 = 5
-    board[cord_1][ cord_2] = player['player_symbol']
+    board[cord_1][ cord_2] = player.symbol
     return board
 
 
