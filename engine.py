@@ -136,9 +136,10 @@ def item_action(item):
 def move_left(board, player_coord):
     if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE:
         global saved_tiles
-        saved_tiles.pop(0)
-        saved_tiles.append(board[player_coord[0]][player_coord[1]-1])
-        player_coord[1] +=-1
+        board[player_coord[0]][player_coord[1]] = saved_tiles
+        player_coord[1] -=1
+        saved_tiles = board[player_coord[0]][player_coord[1]]
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
     elif board[player_coord[0]][player_coord[1]-1] in SPACES_WITH_ITEMS:
         board[player_coord[0]][player_coord[1]] = 'O'
         player_coord[1] +=-1
@@ -151,9 +152,9 @@ def move_left(board, player_coord):
 def move_right(board, player_coord):
     if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
         global saved_tiles
-        saved_tiles.pop(0)
-        saved_tiles.append(board[player_coord[0]][player_coord[1]+1])
-        player_coord[1] += 1
+        board[player_coord[0]][player_coord[1]] = saved_tiles
+        player_coord[1] +=1
+        saved_tiles = board[player_coord[0]][player_coord[1]]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
     elif board[player_coord[0]][player_coord[1]+1] in SPACES_WITH_ITEMS:
         board[player_coord[0]][player_coord[1]] = 'O'
@@ -168,9 +169,10 @@ def move_right(board, player_coord):
 def move_up(board, player_coord):
     if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
         global saved_tiles
-        saved_tiles.pop(0)
-        saved_tiles.append(board[player_coord[0]-1][player_coord[1]])
+        board[player_coord[0]][player_coord[1]] = saved_tiles
         player_coord[0] +=-1
+        saved_tiles = board[player_coord[0]][player_coord[1]]
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
     elif board[player_coord[0]-1][player_coord[1]] in SPACES_WITH_ITEMS:
         board[player_coord[0]][player_coord[1]] = 'O'
         player_coord[0] +=-1
@@ -183,9 +185,9 @@ def move_up(board, player_coord):
 def move_down(board, player_coord):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
         global saved_tiles
-        saved_tiles.pop(0)
-        saved_tiles.append(board[player_coord[0]+1][player_coord[1]])
+        board[player_coord[0]][player_coord[1]] = saved_tiles
         player_coord[0] +=1
+        saved_tiles = board[player_coord[0]][player_coord[1]]
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
     elif board[player_coord[0]+1][player_coord[1]] in SPACES_WITH_ITEMS:
         board[player_coord[0]][player_coord[1]] = 'O'
