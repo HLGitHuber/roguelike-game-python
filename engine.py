@@ -121,14 +121,14 @@ def item_action(item,inventory,text_log):
             PLAYER.roll += 1
             minus_from_inventory(inventory,temp_item)
     elif item == 'fur needle':
-        temp_item = '7. '+item
+        temp_item = '8. '+item
         if inventory[temp_item] == 0:
             text_log.append_html_text(f'You don\'t have any {item}\n')
         else:
             PLAYER.roll += 2
             minus_from_inventory(inventory,temp_item)
     elif item == 'magic hand':
-        temp_item = '8. '+item
+        temp_item = '7. '+item
         if inventory[temp_item] == 0:
             text_log.append_html_text(f'You don\'t have any {item}\n')
         else:
