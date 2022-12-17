@@ -138,104 +138,75 @@ def item_action(item,inventory,text_log):
         PLAYER.health = PLAYER.maxhealth
 
 
-def move_left(board, player_coord, org_board):
+def move_left(board, player_coord, org_board, text_log):
     if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[1] -= 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-    elif board[player_coord[0]][player_coord[1]-1] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
-        player_coord[1] += -1
-        item = board[player_coord[0]][player_coord[1]]
-        item = INVENTORY_DICT[item]
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-        add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]][player_coord[1]-1] in PASSAGE:
         player_coord[1] += - 1
     elif board[player_coord[0]][player_coord[1]-1] in ENEMIES:
         message = attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]][player_coord[1]-1] = org_board[player_coord[0]][player_coord[1]-1]
-            print(message)
+            text_log.append_html_text(message)
         else:
             message2 = attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
-            print(message2)
+            text_log.append_html_text(message2)
 
 
 
-def move_right(board, player_coord, org_board):
+def move_right(board, player_coord, org_board, text_log):
     if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[1] += 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-    elif board[player_coord[0]][player_coord[1]+1] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
-        player_coord[1] += 1
-        item = board[player_coord[0]][player_coord[1]]
-        item = INVENTORY_DICT[item]
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-        add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]][player_coord[1]+1] in PASSAGE:
         player_coord[1] += 1
     elif board[player_coord[0]][player_coord[1]+1] in ENEMIES:
         message = attack_monster([player_coord[0],player_coord[1]+1], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
-            print(message)
+            text_log.append_html_text(message)
         else:
             message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
-            print(message2)
+            text_log.append_html_text(message2)
 
 
 
-def move_up(board, player_coord, org_board):
+def move_up(board, player_coord, org_board, text_log):
     if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[0] += -1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-    elif board[player_coord[0]-1][player_coord[1]] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
-        player_coord[0] += -1
-        item = board[player_coord[0]][player_coord[1]]
-        item = INVENTORY_DICT[item]
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-        add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]-1][player_coord[1]] in PASSAGE:
         player_coord[0] += -1
     elif board[player_coord[0]-1][player_coord[1]] in ENEMIES:
         message = attack_monster([player_coord[0]-1,player_coord[1]], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
-            print(message)
+            text_log.append_html_text(message)
         else:
             message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
-            print(message2)
+            text_log.append_html_text(message2)
 
 
 
-def move_down(board, player_coord, org_board):
+def move_down(board, player_coord, org_board, text_log):
     if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[0] += 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-    elif board[player_coord[0]+1][player_coord[1]] in SPACES_WITH_ITEMS:
-        board[player_coord[0]][player_coord[1]] = 'O'
-        player_coord[0] += 1
-        item = board[player_coord[0]][player_coord[1]]
-        item = INVENTORY_DICT[item]
-        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
-        add_to_inventory(INVENTORY, item)
-        # print(INVENTORY)
     elif board[player_coord[0]+1][player_coord[1]] in PASSAGE:
         player_coord[0] += 1
     elif board[player_coord[0]+1][player_coord[1]] in ENEMIES:
         message = attack_monster([player_coord[0]+1,player_coord[1]], BOARD_NO)
         if message.split(" ")[-1] == 'killed\n':
             board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
-            print(message)
+            text_log.append_html_text(message)
         else:
             message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
-            print(message2)
+            text_log.append_html_text(message2)
 
 def open_door():
     print('If you want to go through door, you need to use a key. Press k to do it.')

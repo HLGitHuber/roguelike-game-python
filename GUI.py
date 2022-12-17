@@ -287,16 +287,16 @@ def main():
                 player_coord = [27, 26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    engine.move_left(board, player_coord, org_board)
+                    engine.move_left(board, player_coord, org_board,text_log)
                     refresh_text_box()
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    engine.move_right(board, player_coord, org_board)
+                    engine.move_right(board, player_coord, org_board, text_log)
                     refresh_text_box()
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    engine.move_up(board, player_coord, org_board)
+                    engine.move_up(board, player_coord, org_board, text_log)
                     refresh_text_box()
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    engine.move_down(board, player_coord, org_board)
+                    engine.move_down(board, player_coord, org_board, text_log)
                     refresh_text_box()
                 if event.key == ord('1'):
                     engine.item_action('cheese',inventory,text_log)
