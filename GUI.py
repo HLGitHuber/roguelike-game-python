@@ -206,6 +206,7 @@ def main():
 
     player = engine.create_player()
     board = mc.temp_map0
+    org_board = mc.base_map0
     player_coord = player.location
 
     def change_map(board, player_coord):
@@ -240,28 +241,35 @@ def main():
             # character movement
             if board == mc.temp_map2 and player_coord == [0, 2]:
                 board = mc.temp_map1
-                player_coord = [14, 35]
+                org_board = mc.base_map1
+                player_coord = [14, 35]             
             if board == mc.temp_map2 and player_coord == [0, 3]:
                 board = mc.temp_map1
+                org_board = mc.base_map1
                 player_coord = [14, 36]
             if board == mc.temp_map0 and player_coord == [10, 32]:
                 board = mc.temp_map1
+                org_board = mc.base_map1
                 player_coord = [5, 5]
             if board == mc.temp_map1 and player_coord == [15, 35]:
                 board = mc.temp_map2
+                org_board = mc.base_map2
                 player_coord = [1, 2]
             if board == mc.temp_map1 and player_coord == [15, 36]:
                 board = mc.temp_map2
+                org_board = mc.base_map2
                 player_coord = [1, 3]
             if board == mc.temp_map2 and player_coord == [0, 30]:
                 board = mc.temp_map3
+                org_board = mc.base_map3
                 player_coord = [3, 1]
             if board == mc.temp_map3 and player_coord == [30, 3]:
                 board = mc.base_map4
+                org_board = mc.base_map4
                 player_coord = [27, 26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    engine.move_left(board, player_coord)
+                    engine.move_left(board, player_coord, org_board)
                     player.str += 1
                     mindamage = player.dice*1+player.str
                     maxdamage = player.dice*player.roll+player.str
@@ -271,7 +279,7 @@ def main():
                     insert_text_to_box(
                         text_inv, new_inventory_text, inventory_text, dictionary=inventory)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    engine.move_right(board, player_coord)
+                    engine.move_right(board, player_coord, org_board)
                     player.health += 1
                     mindamage = player.dice*1+player.str
                     maxdamage = player.dice*player.roll+player.str
@@ -281,7 +289,7 @@ def main():
                     insert_text_to_box(
                         text_inv, new_inventory_text, inventory_text, dictionary=inventory)
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    engine.move_up(board, player_coord)
+                    engine.move_up(board, player_coord, org_board)
                     player.maxhealth += 10
                     mindamage = player.dice*1+player.str
                     maxdamage = player.dice*player.roll+player.str
@@ -291,7 +299,7 @@ def main():
                     insert_text_to_box(
                         text_inv, new_inventory_text, inventory_text, dictionary=inventory)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    engine.move_down(board, player_coord)
+                    engine.move_down(board, player_coord, org_board)
                     player.str += 1
                     mindamage = player.dice*1+player.str
                     maxdamage = player.dice*player.roll+player.str
