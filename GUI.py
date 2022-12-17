@@ -101,13 +101,7 @@ def paint_board(board, background, top_player, left_player, player_coord, window
     for row in board:
         left = left_player - (int(player_coord[1])*BLOCK_WIDTH)
         for element in row:
-            if element == '#':
-                pygame.draw.rect(background, (0, 0, 255),
-                                 (left, top, BLOCK_WIDTH, BLOCK_HEIGHT))
-            elif element == 'G':
-                pygame.draw.rect(background, (0, 255, 100),
-                                 (left, top, BLOCK_WIDTH, BLOCK_HEIGHT))
-            elif element == '@':
+            if element == '@':
                 pygame.draw.rect(
                     background, (255, 0, 0), (left_player, top_player, BLOCK_WIDTH, BLOCK_HEIGHT))
             elif element == '6':
