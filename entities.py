@@ -123,5 +123,3 @@ def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
     """Place all enemies on map."""
     for enemy in enemy_list:
         enemy.spawn(level_board)
-        row, col = enemy.instance[enemy.name]['location']
-        level_board[row][col] = enemy.symbol

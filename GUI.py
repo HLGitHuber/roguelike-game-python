@@ -2,7 +2,8 @@ import util
 import engine
 import pygame
 import pygame_gui
-import entities
+# import entities
+import maps.map_controll as mc
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -25,7 +26,7 @@ def create_player():
     '''
     player = {
         'player_symbol': '@',
-        'player_cord': [5, 30]
+        'player_cord': [5, 5]
     }
     return player
 
@@ -212,12 +213,7 @@ def main():
                                                manager=manager)
 
     player = create_player()
-    board0 = read_table_from_file('maps/map0.txt')
-    board1 = read_table_from_file('maps/map1.txt')
-    board2 = read_table_from_file('maps/map2.txt')
-    board3 = read_table_from_file('maps/map3.txt')
-    board4 = read_table_from_file('maps/map4.txt')
-    board = board0
+    board = mc.temp_map0
     player_coord = player['player_cord']
     engine.put_player_on_board(board, player)
 
@@ -245,29 +241,26 @@ def main():
                 is_running = False
 
             # character movement
-            if board == board2 and player_coord == [0, 2]:
-                player_coord = [14, 35]
-                board = board1
-            if board == board2 and player_coord == [0, 3]:
-                player_coord = [14, 36]
-                board = board1
-            if board == board0 and player_coord == [10, 32]:
-                board = board1
+            if board == mc.temp_map2 and player_coord == [0, 2]:
+                board = mc.temp_map1
+                player_coord = [13, 35]
+            if board == mc.temp_map2 and player_coord == [0, 3]:
+                board = mc.temp_map1
+                player_coord = [13, 36]
+            if board == mc.temp_map0 and player_coord == [10, 32]:
+                board = mc.temp_map1
                 player_coord = [5, 5]
-            if board == board1 and player_coord == [15, 35]:
-                board = board2
+            if board == mc.temp_map1 and player_coord == [15, 35]:
+                board = mc.temp_map2
                 player_coord = [1, 2]
-            if board == board1 and player_coord == [15, 36]:
-                board = board2
+            if board == mc.temp_map1 and player_coord == [15, 36]:
+                board = mc.temp_map2
                 player_coord = [1, 3]
-            if board == board2 and player_coord == [0, 30]:
-                board = board3
-                player_coord = [3, 1]
-            if board == board3 and player_coord == [3, 0]:
-                board = board2
-                player_coord = [1, 30]
-            if board == board3 and player_coord == [30, 3]:
-                board = board4
+            if board == mc.temp_map2 and player_coord == [0, 30]:
+                board = mc.temp_map3
+                player_coord = [4, 0]
+            if board == mc.temp_map3 and player_coord == [30, 3]:
+                board = mc.base_map4
                 player_coord = [27, 26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
