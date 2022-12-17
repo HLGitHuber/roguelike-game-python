@@ -88,6 +88,7 @@ class Entity:
         return text + '\n'
 
     def player_recieve_damage(self, dmg_info: tuple[str, int]) -> str:
+        """Player recieves damage from attacker."""
         text: str = ""
         who = dmg_info[0]
         damage = dmg_info[1]
@@ -96,7 +97,7 @@ class Entity:
         instance[self.name]['health'] = current_health
         text = f'{who} dealt {damage} damage to {self.name}.'
         if self.health <= 0:
-            text = text + f' You are dead. Better luck next time!'
+            text = text + ' You are dead. Better luck next time!'
         return text + '\n'
 
     def deal_damage(self) -> tuple[str, int]:
