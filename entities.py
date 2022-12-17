@@ -31,12 +31,12 @@ class Entity:
         Entity.instance.update(
             {self.name: {'health': self.maxhealth, 'location': self.location}})
 
-    def __del__(self) -> None:
-        """Remove entity."""
-        if self.name == 'player':
-            print('You are dead. Better luck next time!')
-        else:
-            print(f'{self.name} was killed')
+    # def __del__(self) -> None:
+    #     """Remove entity."""
+    #     if self.name == 'player':
+    #         print('You are dead. Better luck next time!')
+    #     else:
+    #         print(f'{self.name} was killed')
 
     def remove_from_enemy_list(self, enemies_list: list[Any]) -> None:
         """Delete entity object from enemies list."""
