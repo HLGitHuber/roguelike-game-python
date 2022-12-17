@@ -131,7 +131,15 @@ def paint_board(board, background, top_player, left_player, player_coord, window
             left += BLOCK_WIDTH
         top += BLOCK_HEIGHT
 
-
+def insert_text_to_box(text_inv,inventory,new_inventory_text,inventory_text):
+    new_inventory_text = convert_dict_to_str(
+                        inventory, new_inventory_text)
+    text_inv.html_text.replace(
+        inventory_text, new_inventory_text)
+    inventory_text = new_inventory_text
+    text_inv.set_text(inventory_text)
+    new_inventory_text = ''
+    
 def main():
     pygame.init()
 
@@ -213,12 +221,16 @@ def main():
     new_inventory_text = ''
     text_inv.set_text(inventory_text)
     player_name = ''
+    mindamage = player.dice*1+player.str
+    maxdamage = player.dice*player.roll+player.str
+    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
+    text_stats.set_text(stats)
     util.clear_screen()
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
 
-        #statistics = f'HP {entities.Entity} / {entities.player.maxhealth}'
+        stats = f'HP {player.health} / {player.maxhealth}\tSTR {player.str}\tDMG {mindamage} - {maxdamage}'
 
         paint_board(board, background, top_player,
                     left_player, player_coord, window_size)
@@ -252,34 +264,20 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board, player_coord)
-                    inventory["sword"] = "1"  # add to inventory
-                    new_inventory_text = convert_dict_to_str(
-                        inventory, new_inventory_text)
-                    text_inv.html_text.replace(
-                        inventory_text, new_inventory_text)
-                    inventory_text = new_inventory_text
-                    text_inv.set_text(inventory_text)
-                    new_inventory_text = ''
+                    # adding inventory test
+                    insert_text_to_box(text_inv,inventory,new_inventory_text,inventory_text)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board, player_coord)
                     # adding inventory test
-                    inventory["color"] = "red"  # add to inventory
-                    new_inventory_text = convert_dict_to_str(
-                        inventory, new_inventory_text)
-                    text_inv.html_text.replace(
-                        inventory_text, new_inventory_text)
-                    inventory_text = new_inventory_text
-                    text_inv.set_text(inventory_text)
-                    new_inventory_text = ''
+                    insert_text_to_box(text_inv,inventory,new_inventory_text,inventory_text)
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board, player_coord)
+                    # adding inventory test
+                    insert_text_to_box(text_inv,inventory,new_inventory_text,inventory_text)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board, player_coord)
-
-            # if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
-            #     if event.ui_element == name_input_box:
-            #         player_name = event.text
-            #         print(player_name)
+                    # adding inventory test
+                    insert_text_to_box(text_inv,inventory,new_inventory_text,inventory_text)
 
             manager.process_events(event)
 
