@@ -69,32 +69,72 @@ def use_item(inventory):
         elif inventory[item] > 0:
             permission = ui.ask_for_using(item)
             if permission:
-                delete_from_inventory(inventory, item)
+                minus_from_inventory(inventory, item)
                 return 'used'
 
 
-def delete_from_inventory(inventory, item):
-    inventory = INVENTORY
+def minus_from_inventory(inventory, item):
     inventory[item] -= 1
-    return inventory
 
 
-def item_action(item):
+def item_action(item,inventory,text_log):
     if item == 'cheese':
-        PLAYER.health += 10
+        temp_item = '1. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.health += 10
+            minus_from_inventory(inventory,temp_item)
     elif item == 'meat':
-        PLAYER.health += 25
+        temp_item = '2. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.health += 25
+            minus_from_inventory(inventory,temp_item)
     elif item == 'pill':
-        PLAYER.str += 1
-    elif item in ['fang', 'shank']:
-        PLAYER.roll += 1
+        temp_item = '3. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.str += 1
+            minus_from_inventory(inventory,temp_item)
+    elif item == 'fang':
+        temp_item = '4. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.roll += 1
+            minus_from_inventory(inventory,temp_item)
+    elif item == 'shank':
+        temp_item = '5. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.roll += 1
+            minus_from_inventory(inventory,temp_item)
     elif item == 'blood vial':
-        PLAYER.str += 1
-        PLAYER.roll += 1
+        temp_item = '6. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.str += 1
+            PLAYER.roll += 1
+            minus_from_inventory(inventory,temp_item)
     elif item == 'fur needle':
-        PLAYER.roll += 2
+        temp_item = '7. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.roll += 2
+            minus_from_inventory(inventory,temp_item)
     elif item == 'magic hand':
-        PLAYER.dice += 2
+        temp_item = '8. '+item
+        if inventory[temp_item] == 0:
+            text_log.append_html_text(f'You don\'t have any {item}\n')
+        else:
+            PLAYER.dice += 2
+            minus_from_inventory(inventory,temp_item)
     if PLAYER.health > PLAYER.maxhealth:
         PLAYER.health = PLAYER.maxhealth
 
