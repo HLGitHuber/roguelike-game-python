@@ -50,12 +50,15 @@ def convert_dict_to_nice_str(dictionary, string, seperator=': '):
         string += '\n'
     return string
 
+
 def convert_dict_to_straight_str(dictionary, string, seperator=': '):
     for key, value in dictionary.items():
         string += key
         string += seperator
         string += str(value)
     return string
+
+
 '''
 0 - podłoga
 1 - ziemia
@@ -136,17 +139,19 @@ def paint_board(board, background, top_player, left_player, player_coord, window
             left += BLOCK_WIDTH
         top += BLOCK_HEIGHT
 
+
 def insert_text_to_box(text_box, new_text, text_html, dictionary=None):
     if dictionary is not None:
         new_text = convert_dict_to_nice_str(
-                            dictionary, new_text)
+            dictionary, new_text)
     else:
         new_text = text_html
     text_box.html_text.replace(
         text_html, new_text)
     text_box.set_text(new_text)
     new_text = ''
-    
+
+
 def main():
     pygame.init()
 
@@ -212,36 +217,34 @@ def main():
 
     top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
     left_player = (window_size[0]-BLOCK_WIDTH)/2
-    
+
     inventory = create_inventory()
     inventory_text = convert_dict_to_nice_str(inventory, inventory_text)
     new_inventory_text = ''
     text_inv.set_text(inventory_text)
-    
+
     mindamage = engine.PLAYER.dice*1+engine.PLAYER.str
     maxdamage = engine.PLAYER.dice*engine.PLAYER.roll+engine.PLAYER.str
     stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}    EXP {engine.PLAYER.exp}'
     new_stats = ''
     text_stats.set_text(stats)
-    
+
     util.clear_screen()
-    
+
     def refresh_text_box():
         mindamage = engine.PLAYER.dice*1+engine.PLAYER.str
         maxdamage = engine.PLAYER.dice*engine.PLAYER.roll+engine.PLAYER.str
-        stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}    EXP {engine.PLAYER.exp}'
-        insert_text_to_box(text_stats,new_stats,stats)
-        insert_text_to_box(text_inv,new_inventory_text,inventory_text,dictionary=inventory)
-        
+        stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}'
+        insert_text_to_box(text_stats, new_stats, stats)
+        insert_text_to_box(text_inv, new_inventory_text,
+                           inventory_text, dictionary=inventory)
+
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
 
-        
-
         paint_board(board, background, top_player,
                     left_player, player_coord, window_size)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
@@ -251,16 +254,16 @@ def main():
                 board = mc.temp_map1
                 org_board = mc.base_map1
                 engine.BOARD_NO = 1
-                player_coord = [14, 35]             
+                player_coord = [14, 35]
             if board == mc.temp_map2 and player_coord == [0, 3]:
                 board = mc.temp_map1
-                engine.BOARD_NO =1
+                engine.BOARD_NO = 1
                 org_board = mc.base_map1
                 player_coord = [14, 36]
             if board == mc.temp_map0 and player_coord == [10, 32]:
                 board = mc.temp_map1
                 org_board = mc.base_map1
-                engine.BOARD_NO =1
+                engine.BOARD_NO = 1
                 player_coord = [5, 5]
             if board == mc.temp_map1 and player_coord == [15, 35]:
                 board = mc.temp_map2
@@ -319,14 +322,14 @@ def main():
                 if event.key == ord('8'):
                     engine.item_action('fur needle',inventory,text_log)
                     refresh_text_box()
-                
+
             manager.process_events(event)
-        
+
         manager.update(time_delta)
-        
+
         window_surface.blit(background, (0, 0))
         manager.draw_ui(window_surface)
-        
+
         pygame.display.update()
 
         # TODO ui.display_inventory(inventory)

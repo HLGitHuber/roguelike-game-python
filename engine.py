@@ -1,6 +1,7 @@
+from html import entities
 import util
 import ui
-from entities import Entity
+import entities
 import maps.map_controll as mc
 
 
@@ -35,7 +36,7 @@ INVENTORY_DICT = {
 BOARD_NO = 0
 
 def create_player():
-    player = Entity('player')
+    player = entities.Entity('player')
     player.location = [5, 5]
     return player
 
@@ -154,8 +155,12 @@ def move_left(board, player_coord, org_board):
     elif board[player_coord[0]][player_coord[1]-1] in PASSAGE:
         player_coord[1] += - 1
     elif board[player_coord[0]][player_coord[1]-1] in ENEMIES:
-        attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
-        attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
+        message = attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]][player_coord[1]-1] = org_board[player_coord[0]][player_coord[1]-1]
+        else:
+            message2 = attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
+            print(message2)
 
 
 
@@ -173,6 +178,14 @@ def move_right(board, player_coord, org_board):
         add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]][player_coord[1]+1] in PASSAGE:
         player_coord[1] += 1
+    elif board[player_coord[0]][player_coord[1]+1] in ENEMIES:
+        message = attack_monster([player_coord[0],player_coord[1]+1], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]][player_coord[1]+1] = org_board[player_coord[0]][player_coord[1]+1]
+        else:
+            message2 = attack_player([player_coord[0],player_coord[1]+1], BOARD_NO)
+            print(message2)
+
 
 
 def move_up(board, player_coord, org_board):
@@ -189,6 +202,14 @@ def move_up(board, player_coord, org_board):
         add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]-1][player_coord[1]] in PASSAGE:
         player_coord[0] += -1
+    elif board[player_coord[0]-1][player_coord[1]] in ENEMIES:
+        message = attack_monster([player_coord[0]-1,player_coord[1]], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]-1][player_coord[1]] = org_board[player_coord[0]-1][player_coord[1]]
+        else:
+            message2 = attack_player([player_coord[0]-1,player_coord[1]], BOARD_NO)
+            print(message2)
+
 
 
 def move_down(board, player_coord, org_board):
@@ -206,6 +227,14 @@ def move_down(board, player_coord, org_board):
         # print(INVENTORY)
     elif board[player_coord[0]+1][player_coord[1]] in PASSAGE:
         player_coord[0] += 1
+    elif board[player_coord[0]+1][player_coord[1]] in ENEMIES:
+        message = attack_monster([player_coord[0]+1,player_coord[1]], BOARD_NO)
+        if message.split(" ")[-1] == 'killed\n':
+            board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
+        else:
+            message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
+            print(message2)
+
 
 
 def display(board):
@@ -237,19 +266,20 @@ def get_race():
     data = open('enemy_template.txt').read().splitlines()
 
     table = data[1].split(';')
-    character = Entity(table[0])
+    character = entities.Entity(table[0])
     return character
 
 
 def attack_monster(coords: list[int], map_index: int):
     enemy = mc.enemies[map_index][mc.find_enemy(coords, map_index)]
-    enemy.recieve_damage(mc.enemies[map_index], PLAYER.deal_damage())
+    message = enemy.recieve_damage(mc.enemies[map_index], PLAYER.deal_damage())
+    return message
 
 
 def attack_player(coords: list[int], map_index: int):
     enemy = mc.enemies[map_index][mc.find_enemy(coords, map_index)]
-    PLAYER.player_recieve_damage(enemy, enemy.deal_damage())
-
+    message = PLAYER.player_recieve_damage(enemy.deal_damage())
+    return message
 
 def item_from_enemy(enemy_loot, enemy_location, board):
     board[enemy_location] = enemy_loot
