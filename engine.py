@@ -3,6 +3,7 @@ import ui
 from entities import Entity
 import maps.map_controll as mc
 
+
 saved_tiles = ['1']
 SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4']
 SPACES_WITH_ITEMS = ['k', 'm']
@@ -31,7 +32,7 @@ INVENTORY_DICT = {
     'h': 'magic hand',
     'n': 'fur needle'
 }
-
+BOARD_NO = 0
 
 def create_player():
     player = Entity('player')
@@ -112,6 +113,10 @@ def move_left(board, player_coord, org_board):
         add_to_inventory(INVENTORY, item)
     elif board[player_coord[0]][player_coord[1]-1] in PASSAGE:
         player_coord[1] += - 1
+    elif board[player_coord[0]][player_coord[1]-1] in ENEMIES:
+        attack_monster([player_coord[0],player_coord[1]-1], BOARD_NO)
+        attack_player([player_coord[0],player_coord[1]-1], BOARD_NO)
+
 
 
 def move_right(board, player_coord, org_board):

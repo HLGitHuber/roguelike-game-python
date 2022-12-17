@@ -202,6 +202,7 @@ def main():
     player = create_player()
     board = mc.temp_map0
     org_board = mc.base_map0
+    engine.BOARD_NO = 0
 
     player_coord = engine.PLAYER.location
     # engine.put_player_on_board(board, player)
@@ -249,30 +250,37 @@ def main():
             if board == mc.temp_map2 and player_coord == [0, 2]:
                 board = mc.temp_map1
                 org_board = mc.base_map1
+                engine.BOARD_NO = 1
                 player_coord = [14, 35]             
             if board == mc.temp_map2 and player_coord == [0, 3]:
                 board = mc.temp_map1
+                engine.BOARD_NO =1
                 org_board = mc.base_map1
                 player_coord = [14, 36]
             if board == mc.temp_map0 and player_coord == [10, 32]:
                 board = mc.temp_map1
                 org_board = mc.base_map1
+                engine.BOARD_NO =1
                 player_coord = [5, 5]
             if board == mc.temp_map1 and player_coord == [15, 35]:
                 board = mc.temp_map2
                 org_board = mc.base_map2
+                engine.BOARD_NO = 2
                 player_coord = [1, 2]
             if board == mc.temp_map1 and player_coord == [15, 36]:
                 board = mc.temp_map2
                 org_board = mc.base_map2
+                engine.BOARD_NO = 2
                 player_coord = [1, 3]
             if board == mc.temp_map2 and player_coord == [0, 30]:
                 board = mc.temp_map3
                 org_board = mc.base_map3
+                engine.BOARD_NO = 3
                 player_coord = [3, 1]
             if board == mc.temp_map3 and player_coord == [30, 3]:
                 board = mc.base_map4
                 org_board = mc.base_map4
+                engine.BOARD_NO = 4
                 player_coord = [27, 26]
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):

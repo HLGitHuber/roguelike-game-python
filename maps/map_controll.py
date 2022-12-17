@@ -6,7 +6,7 @@ import entities as ent
 def get_board(filename: str) -> list[list[str]]:
     """Get file content."""
     with open(filename, 'r', encoding='UTF-8') as file:
-        string_map: list[list[str]] = [list(list(line)) for
+        string_map: list[list[str]] = [list(list(line.replace('\n', ''))) for
                                        line in file.readlines()]
         return string_map
 
