@@ -284,7 +284,6 @@ def main():
                 if event.key == ord('2'):
                     engine.item_action('meat')
                     refresh_text_box()
-                    engine.PLAYER.str
                 if event.key == ord('3'):
                     engine.item_action('pill')
                     refresh_text_box()
