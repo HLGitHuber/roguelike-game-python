@@ -17,7 +17,7 @@ PANEL_HEIGHT = 240
 
 
 def create_player():
-    player = entities.Entity('player')
+    player = entities.Entity('player', 0)
     engine.PLAYER.location = [5, 5]
     return player
 
@@ -242,7 +242,6 @@ def main():
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
-
         paint_board(board, background, top_player,
                     left_player, player_coord, window_size)
         for event in pygame.event.get():
@@ -288,39 +287,47 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board, player_coord, org_board)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
                     refresh_text_box()
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board, player_coord, org_board)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
                     refresh_text_box()
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board, player_coord, org_board)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
                     refresh_text_box()
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board, player_coord, org_board)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
                     refresh_text_box()
                 if event.key == ord('1'):
-                    engine.item_action('cheese',inventory,text_log)
+                    engine.item_action('cheese', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('2'):
-                    engine.item_action('meat',inventory,text_log)
+                    engine.item_action('meat', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('3'):
-                    engine.item_action('pill',inventory,text_log)
+                    engine.item_action('pill', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('4'):
-                    engine.item_action('fang',inventory,text_log)
+                    engine.item_action('fang', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('5'):
-                    engine.item_action('shank',inventory,text_log)
+                    engine.item_action('shank', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('6'):
-                    engine.item_action('blood vial',inventory,text_log)
+                    engine.item_action('blood vial', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('7'):
-                    engine.item_action('magic hand',inventory,text_log)
+                    engine.item_action('magic hand', inventory, text_log)
                     refresh_text_box()
                 if event.key == ord('8'):
-                    engine.item_action('fur needle',inventory,text_log)
+                    engine.item_action('fur needle', inventory, text_log)
                     refresh_text_box()
 
             manager.process_events(event)

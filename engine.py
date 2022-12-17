@@ -1,4 +1,3 @@
-from html import entities
 import util
 import ui
 import entities
@@ -36,7 +35,7 @@ INVENTORY_DICT = {
 BOARD_NO = 0
 
 def create_player():
-    player = entities.Entity('player')
+    player = entities.Entity('player', 0)
     player.location = [5, 5]
     return player
 
@@ -49,11 +48,6 @@ def put_player_on_board(board, player):
     cord_2 = 5
     board[cord_1][cord_2] = player.symbol
     return board
-
-
-def add_to_inventory(inventory, item):
-    inventory[item] += 1
-
 
 def use_item(inventory):
     print(inventory)
@@ -74,6 +68,10 @@ def use_item(inventory):
 
 def minus_from_inventory(inventory, item):
     inventory[item] -= 1
+    name = item.split(" ")
+    name.pop(0)
+    name = " ".join(name)
+    INVENTORY[name] -= 1
 
 
 def item_action(item,inventory,text_log):
@@ -267,7 +265,7 @@ def get_race():
 
 def attack_monster(coords: list[int], map_index: int):
     enemy = mc.enemies[map_index][mc.find_enemy(coords, map_index)]
-    message = enemy.recieve_damage(mc.enemies[map_index], PLAYER.deal_damage())
+    message = enemy.recieve_damage(mc.enemies[map_index], PLAYER.deal_damage(), map_index)
     return message
 
 

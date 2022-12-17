@@ -22,15 +22,15 @@ def find_enemy(coords: list[int], map_index: int) -> int:
     return enemy_index
 
 
-enemies0: list[Any] = [ent.Entity('rat') for _ in range(
-    15)] + [ent.Entity('wolf') for _ in range(10)]
-enemies1: list[Any] = [ent.Entity('rat') for _ in range(
-    15)] + [ent.Entity('goblin') for _ in range(10)]
-enemies2: list[Any] = [ent.Entity('goblin') for _ in range(
-    15)] + [ent.Entity('demon') for _ in range(10)]
-enemies3: list[Any] = [ent.Entity('demon') for _ in range(
-    10)] + [ent.Entity('goblin') for _ in range(10)] + [ent.Entity('bat')
-                                                        for _ in range(20)]
+enemies0: list[Any] = [ent.Entity('rat', 0) for _ in range(
+    15)] + [ent.Entity('wolf', 0) for _ in range(10)]
+enemies1: list[Any] = [ent.Entity('rat', 1) for _ in range(
+    15)] + [ent.Entity('goblin', 1) for _ in range(10)]
+enemies2: list[Any] = [ent.Entity('goblin', 2) for _ in range(
+    15)] + [ent.Entity('demon', 2) for _ in range(10)]
+enemies3: list[Any] = [ent.Entity('demon', 3) for _ in range(
+    10)] + [ent.Entity('goblin', 3) for _ in range(10)] + [ent.Entity('bat', 3)
+                                                           for _ in range(20)]
 enemies: list[list[Any]] = [enemies0, enemies1, enemies2, enemies3]
 
 base_map0: list[list[str]] = get_board('maps/map0.txt')

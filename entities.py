@@ -5,18 +5,17 @@ from typing import Any
 from random import randint, choices
 import engine
 
-spawned: list[str] = []
 instance: dict[str, dict[str, Any]] = {}
-used_names: list[str] = []
+used_names: list[list[str]] = [[], [], [], [], []]
 
 
 class Entity:
     """Game entity class."""
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, index: int) -> None:
         """Create new entity."""
         template: list[str] = self.get_entity_type(name)
-        self.name: str = self.get_name(name)
+        self.name: str = self.get_name(name, index)
         self.symbol: str = template[1]
         self.exp: int = int(template[2])
         self.health: int = int(template[3])
@@ -35,25 +34,25 @@ class Entity:
     def __getitem__(self, attr):
         return self
 
-    def remove_from_enemy_list(self, enemies_list: list[Any]) -> None:
+    def remove_from_enemy_list(self, enemies_list: list[Any], index: int) -> None:
         """Delete entity object from enemies list."""
         # global last_killed
         # last_killed = [enemies_list[used_names.index(self.name)]]
-        del enemies_list[used_names.index(self.name)]
+        del enemies_list[used_names[index].index(self.name)]
 
-    def get_name(self, name: str) -> str:
+    def get_name(self, name: str, index: int) -> str:
         """Get unique mob name."""
         if name == 'player':
             return name
         new_name: str = name + '0'
         number: int = 0
-        while new_name in used_names:
+        while new_name in used_names[index]:
             number += 1
             if len(str(number)) == 1 or number == 10:
                 new_name = new_name[:-1] + str(number)
             elif len(str(number)) == 2:
                 new_name = new_name[:-2] + str(number)
-        used_names.append(new_name)
+        used_names[index].append(new_name)
         return new_name
 
     def get_entity_type(self, name: str) -> list[str]:
@@ -77,7 +76,7 @@ class Entity:
             return []
 
     def recieve_damage(self, enemies_list: list[Any],
-                       dmg_info: tuple[str, int]) -> str:
+                       dmg_info: tuple[str, int], index: int) -> Any:
         """Recieve damage from attacker."""
         try:
             text: str = ""
@@ -88,10 +87,11 @@ class Entity:
             instance[self.name]['health'] = current_health
             text = f'{who} dealt {damage} damage to {self.name}.'
             if self.health <= 0:
-                engine.add_to_inventory(engine.INVENTORY, self.drop_item())
+                drop = self.drop_item()
+                if drop != 'nothing':
+                    engine.INVENTORY[drop] += 1
                 instance.pop(self.name)
-                spawned.pop(spawned.index(self.name))
-                Entity.remove_from_enemy_list(self, enemies_list)
+                Entity.remove_from_enemy_list(self, enemies_list, index)
                 text = text + f' {self.name} was killed'
             return text + '\n'
         except KeyError:
@@ -124,19 +124,15 @@ class Entity:
             i = randint(0, len(board)-2)
             j = randint(0, len(board[0])-2)
         instance[self.name]['location'] = [i, j]
-        spawned.append(self.name)
         self.location = [i, j]
         self.prevfield = board[i][j]
         board[i][j] = self.symbol
 
     def drop_item(self) -> str:
         """Roll item drop from drop table."""
-        item: str = choices(self.loot, cum_weights=self.chance)
+        item: str = choices(self.loot, cum_weights=self.chance)[0]
         print(item)
         return item
-
-
-last_killed: list[Any] = [Entity('rat')]
 
 
 def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
