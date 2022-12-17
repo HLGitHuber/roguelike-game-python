@@ -233,14 +233,6 @@ def move_down(board, player_coord, org_board):
             board[player_coord[0]+1][player_coord[1]] = org_board[player_coord[0]+1][player_coord[1]]
         else:
             message2 = attack_player([player_coord[0]+1,player_coord[1]], BOARD_NO)
-            print(message2)
-
-
-
-def display(board):
-    for line in board:
-        print(*line)
-
 
 def open_door():
     print('If you want to go through door, you need to use a key. Press k to do it.')
