@@ -2,6 +2,26 @@
 from typing import Any
 import entities as ent
 
+
+def get_board(filename: str) -> list[list[str]]:
+    """Get file content."""
+    with open(filename, 'r', encoding='UTF-8') as file:
+        string_map: list[list[str]] = [list(list(line)) for
+                                       line in file.readlines()]
+        return string_map
+
+
+def find_enemy(coords: list[int], map_index: int) -> int:
+    """Find enemy index on monster list."""
+    enemy_index: int = 0
+    i: int = 0
+    for enemy in enemies[map_index]:
+        if enemy.location == coords:
+            enemy_index = i
+        i += 1
+    return enemy_index
+
+
 enemies0: list[Any] = [ent.Entity('rat') for _ in range(
     15)] + [ent.Entity('wolf') for _ in range(10)]
 enemies1: list[Any] = [ent.Entity('rat') for _ in range(
@@ -12,15 +32,6 @@ enemies3: list[Any] = [ent.Entity('demon') for _ in range(
     10)] + [ent.Entity('goblin') for _ in range(10)] + [ent.Entity('bat')
                                                         for _ in range(20)]
 enemies: list[list[Any]] = [enemies0, enemies1, enemies2, enemies3]
-
-
-def get_board(filename: str) -> list[list[str]]:
-    """Get file content."""
-    with open(filename, 'r', encoding='UTF-8') as file:
-        string_map: list[list[str]] = [list(list(line)) for
-                                       line in file.readlines()]
-        return string_map
-
 
 base_map0: list[list[str]] = get_board('maps/map0.txt')
 base_map1: list[list[str]] = get_board('maps/map1.txt')
