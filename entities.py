@@ -50,7 +50,10 @@ class Entity:
         instance: int = 0
         while new_name in Entity.used_names:
             instance += 1
-            new_name = new_name[:-1] + str(instance)
+            if len(str(instance)) == 1 or instance == 10:
+                new_name = new_name[:-1] + str(instance)
+            elif len(str(instance)) == 2:
+                new_name = new_name[:-2] + str(instance)
         Entity.used_names.append(new_name)
         return new_name
 
@@ -98,15 +101,15 @@ class Entity:
 
     def spawn(self, board: list[list[str]]) -> None:
         """Place entity on board."""
-        i: int = randint(0, len(board)-1)
-        j: int = randint(0, len(board[0])-1)
+        i: int = randint(0, len(board)-2)
+        j: int = randint(0, len(board[0])-2)
         while board[i][j] not in ['0', '1', '2', '3', '4']:
-            i = randint(0, len(board)-1)
-            j = randint(0, len(board[0])-1)
+            i = randint(0, len(board)-2)
+            j = randint(0, len(board[0])-2)
         Entity.instance[self.name]['location'] = i, j
         Entity.spawned.append(self.name)
         self.location = i, j
-
+        self.prevfield = board[i][j]
         board[i][j] = self.symbol
 
     def drop_item(self) -> str:
