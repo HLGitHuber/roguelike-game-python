@@ -12,7 +12,6 @@ ENEMIES = ['R', 'W', 'G', 'D', 'B', 'T']
 PASSAGE = ['8', '9']
 PLAYER_SYMBOL = '@'
 INVENTORY = {
-    "keys": 0,
     "cheese": 2,
     'meat': 0,
     'pill': 0,
@@ -23,7 +22,6 @@ INVENTORY = {
     'fur needle': 0
 }
 INVENTORY_DICT = {
-    'k': 'keys',
     'c': "cheese",
     'm': 'meat',
     'p': 'pill',

@@ -18,7 +18,7 @@ PANEL_HEIGHT = 240
 
 def create_player():
     player = entities.Entity('player')
-    player.location = [5, 5]
+    engine.PLAYER.location = [5, 5]
     return player
 
 
@@ -34,11 +34,11 @@ def read_table_from_file(file_name):
 def create_inventory():
     inventory = {
         "Inventory": "",
-        "keys": 0,
-        "weapon": 0,
-        "armor": 0,
-        "medicine": 2
     }
+    i = 1
+    for key, value in engine.INVENTORY.items():
+        inventory[str(i)+'. '+key] = value
+        i += 1
     return inventory
 
 
@@ -50,15 +50,12 @@ def convert_dict_to_nice_str(dictionary, string, seperator=': '):
         string += '\n'
     return string
 
-
 def convert_dict_to_straight_str(dictionary, string, seperator=': '):
     for key, value in dictionary.items():
         string += key
         string += seperator
         string += str(value)
     return string
-
-
 '''
 0 - podłoga
 1 - ziemia
@@ -139,19 +136,17 @@ def paint_board(board, background, top_player, left_player, player_coord, window
             left += BLOCK_WIDTH
         top += BLOCK_HEIGHT
 
-
 def insert_text_to_box(text_box, new_text, text_html, dictionary=None):
     if dictionary is not None:
         new_text = convert_dict_to_nice_str(
-            dictionary, new_text)
+                            dictionary, new_text)
     else:
         new_text = text_html
     text_box.html_text.replace(
         text_html, new_text)
     text_box.set_text(new_text)
     new_text = ''
-
-
+    
 def main():
     pygame.init()
 
@@ -204,32 +199,44 @@ def main():
                                                container=stats_panel,
                                                manager=manager)
 
-    player = engine.create_player()
+    player = create_player()
     board = mc.temp_map0
     org_board = mc.base_map0
-    player_coord = player.location
+
+    player_coord = engine.PLAYER.location
+    # engine.put_player_on_board(board, player)
 
     def change_map(board, player_coord):
         pass
 
     top_player = (window_size[1]-PANEL_HEIGHT-BLOCK_HEIGHT)/2
     left_player = (window_size[0]-BLOCK_WIDTH)/2
-
+    
     inventory = create_inventory()
     inventory_text = convert_dict_to_nice_str(inventory, inventory_text)
     new_inventory_text = ''
     text_inv.set_text(inventory_text)
-
-    mindamage = player.dice*1+player.str
-    maxdamage = player.dice*player.roll+player.str
-    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
+    
+    mindamage = engine.PLAYER.dice*1+engine.PLAYER.str
+    maxdamage = engine.PLAYER.dice*engine.PLAYER.roll+engine.PLAYER.str
+    stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}'
     new_stats = ''
     text_stats.set_text(stats)
-
+    
     util.clear_screen()
+    
+    def refresh_text_box():
+        mindamage = engine.PLAYER.dice*1+engine.PLAYER.str
+        maxdamage = engine.PLAYER.dice*engine.PLAYER.roll+engine.PLAYER.str
+        stats = f'HP {engine.PLAYER.health} / {engine.PLAYER.maxhealth}    STR {engine.PLAYER.str}    DMG {mindamage} - {maxdamage}'
+        insert_text_to_box(text_stats,new_stats,stats)
+        insert_text_to_box(text_inv,new_inventory_text,inventory_text,dictionary=inventory)
+        
     is_running = True
     while is_running:
         time_delta = clock.tick(60)/1000.0
+
+        
 
         paint_board(board, background, top_player,
                     left_player, player_coord, window_size)
@@ -270,52 +277,48 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board, player_coord, org_board)
-                    player.str += 1
-                    mindamage = player.dice*1+player.str
-                    maxdamage = player.dice*player.roll+player.str
-                    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
-                    insert_text_to_box(text_stats, new_stats, stats)
-                    # adding inventory test
-                    insert_text_to_box(
-                        text_inv, new_inventory_text, inventory_text, dictionary=inventory)
+                    refresh_text_box()
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board, player_coord, org_board)
-                    player.health += 1
-                    mindamage = player.dice*1+player.str
-                    maxdamage = player.dice*player.roll+player.str
-                    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
-                    insert_text_to_box(text_stats, new_stats, stats)
-                    # adding inventory test
-                    insert_text_to_box(
-                        text_inv, new_inventory_text, inventory_text, dictionary=inventory)
+                    refresh_text_box()
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board, player_coord, org_board)
-                    player.maxhealth += 10
-                    mindamage = player.dice*1+player.str
-                    maxdamage = player.dice*player.roll+player.str
-                    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
-                    insert_text_to_box(text_stats, new_stats, stats)
-                    # adding inventory test
-                    insert_text_to_box(
-                        text_inv, new_inventory_text, inventory_text, dictionary=inventory)
+                    refresh_text_box()
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
                     engine.move_down(board, player_coord, org_board)
-                    player.str += 1
-                    mindamage = player.dice*1+player.str
-                    maxdamage = player.dice*player.roll+player.str
-                    stats = f'HP {player.health} / {player.maxhealth}    STR {player.str}    DMG {mindamage} - {maxdamage}'
-                    insert_text_to_box(text_stats, new_stats, stats)
-                    # adding inventory test
-                    insert_text_to_box(
-                        text_inv, new_inventory_text, inventory_text, dictionary=inventory)
-
+                    refresh_text_box()
+                if event.key == ord('1'):
+                    engine.item_action('cheese')
+                    refresh_text_box()
+                if event.key == ord('2'):
+                    engine.item_action('meat')
+                    refresh_text_box()
+                if event.key == ord('3'):
+                    engine.item_action('pill')
+                    refresh_text_box()
+                if event.key == ord('4'):
+                    engine.item_action('fang')
+                    refresh_text_box()
+                if event.key == ord('5'):
+                    engine.item_action('shank')
+                    refresh_text_box()
+                if event.key == ord('6'):
+                    engine.item_action('blood vial')
+                    refresh_text_box()
+                if event.key == ord('7'):
+                    engine.item_action('magic hand')
+                    refresh_text_box()
+                if event.key == ord('8'):
+                    engine.item_action('fur needle')
+                    refresh_text_box()
+                
             manager.process_events(event)
-
+        
         manager.update(time_delta)
-
+        
         window_surface.blit(background, (0, 0))
         manager.draw_ui(window_surface)
-
+        
         pygame.display.update()
 
         # TODO ui.display_inventory(inventory)
