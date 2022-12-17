@@ -20,7 +20,7 @@ INVENTORY = {
     'fang': 1,
     'shank': 0,
     'blood vial': 0,
-    'magic hand': 0,
+    'magic hand': 5,
     'fur needle': 0
 }
 INVENTORY_DICT = {
@@ -52,9 +52,7 @@ def put_player_on_board(board, player):
 
 
 def add_to_inventory(inventory, item):
-    print('You have found a ', item)
     inventory[item] += 1
-    return inventory
 
 
 def use_item(inventory):

@@ -88,7 +88,7 @@ class Entity:
             instance[self.name]['health'] = current_health
             text = f'{who} dealt {damage} damage to {self.name}.'
             if self.health <= 0:
-                engine.add_to_inventory(engine.INVENTORY, drop_item())
+                engine.add_to_inventory(engine.INVENTORY, self.drop_item())
                 instance.pop(self.name)
                 spawned.pop(spawned.index(self.name))
                 Entity.remove_from_enemy_list(self, enemies_list)
