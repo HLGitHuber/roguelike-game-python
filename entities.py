@@ -31,8 +31,13 @@ class Entity:
         instance.update(
             {self.name: {'health': self.maxhealth, 'location': self.location}})
 
+    def __getitem__(self, attr):
+        return self
+
     def remove_from_enemy_list(self, enemies_list: list[Any]) -> None:
         """Delete entity object from enemies list."""
+        # global last_killed
+        # last_killed = [enemies_list[used_names.index(self.name)]]
         del enemies_list[used_names.index(self.name)]
 
     def get_name(self, name: str) -> str:
@@ -73,19 +78,22 @@ class Entity:
     def recieve_damage(self, enemies_list: list[Any],
                        dmg_info: tuple[str, int]) -> str:
         """Recieve damage from attacker."""
-        text: str = ""
-        who = dmg_info[0]
-        damage = dmg_info[1]
-        self.health -= damage
-        current_health: int = self.health if self.health >= 0 else 0
-        instance[self.name]['health'] = current_health
-        text = f'{who} dealt {damage} damage to {self.name}.'
-        if self.health <= 0:
-            instance.pop(self.name)
-            spawned.pop(spawned.index(self.name))
-            Entity.remove_from_enemy_list(self, enemies_list)
-            text = text + f' {self.name} was killed'
-        return text + '\n'
+        try:
+            text: str = ""
+            who = dmg_info[0]
+            damage = dmg_info[1]
+            self.health -= damage
+            current_health: int = self.health if self.health >= 0 else 0
+            instance[self.name]['health'] = current_health
+            text = f'{who} dealt {damage} damage to {self.name}.'
+            if self.health <= 0:
+                instance.pop(self.name)
+                spawned.pop(spawned.index(self.name))
+                Entity.remove_from_enemy_list(self, enemies_list)
+                text = text + f' {self.name} was killed'
+            return text + '\n'
+        except KeyError:
+            pass
 
     def player_recieve_damage(self, dmg_info: tuple[str, int]) -> str:
         """Player recieves damage from attacker."""
@@ -123,6 +131,9 @@ class Entity:
         """Roll item drop from drop table."""
         item: str = choices(self.loot, cum_weights=self.chance)[0]
         return item
+
+
+last_killed: list[Any] = [Entity('rat')]
 
 
 def spawn_enemies(enemy_list: list[Entity], level_board: list[list[str]]
