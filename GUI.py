@@ -37,7 +37,8 @@ def read_table_from_file(file_name):
         return []
 
 def create_inventory():
-    inventory= { 
+    inventory= {
+    "Inventory": "",
     "keys": 0,
     "weapon" : 0,
     "armor" : 0,
@@ -179,7 +180,7 @@ def main():
                                              manager=manager)
     
     inventory_text = ''
-    text_inv = pygame_gui.elements.UITextBox('Inventory:\n',
+    text_inv = pygame_gui.elements.UITextBox(inventory_text,
                                              relative_rect= pygame.Rect(-3,-3,window_size[0]/4,200),
                                              container=inv_panel,
                                              manager=manager)
@@ -192,7 +193,7 @@ def main():
     
     
     player = create_player()
-    board = read_table_from_file('maps/map2.txt')
+    board = read_table_from_file('maps/map0.txt')
     player_coord = player['player_cord']
     engine.put_player_on_board(board,player)
     
@@ -200,7 +201,8 @@ def main():
     left_player = (window_size[0]-BLOCK_WIDTH)/2
     inventory = create_inventory()
     inventory_text = convert_dict_to_str(inventory,inventory_text)
-    text_inv.append_html_text(inventory_text)
+    new_inventory_text = ''
+    text_inv.set_text(inventory_text)
     player_name = ''
     util.clear_screen()
     is_running = True
@@ -215,13 +217,24 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
-            
             #character movement
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
                     engine.move_left(board,player_coord)
+                    inventory["sword"] = "1" #add to inventory
+                    new_inventory_text = convert_dict_to_str(inventory,new_inventory_text)
+                    text_inv.html_text.replace(inventory_text,new_inventory_text)
+                    inventory_text = new_inventory_text
+                    text_inv.set_text(inventory_text)
+                    new_inventory_text = ''
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):
                     engine.move_right(board,player_coord)
+                    inventory["color"] = "red" #add to inventory
+                    new_inventory_text = convert_dict_to_str(inventory,new_inventory_text)
+                    text_inv.html_text.replace(inventory_text,new_inventory_text)
+                    inventory_text = new_inventory_text
+                    text_inv.set_text(inventory_text)
+                    new_inventory_text = ''
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     engine.move_up(board,player_coord)
                 if event.key == pygame.K_DOWN or event.key == ord('s'):
