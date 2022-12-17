@@ -1,5 +1,8 @@
 name;symbol;exp;hp;maxhp;str;dice;roll;location;loot table
 player;@;0;50;50;1;1;6;(0,0);nothing,100
+human;@;0;50;50;1;2;5;(0,0);nothing,100
+elf;@;0;35;35;1;3;4;(0,0);nothing,100
+dwarf;@;0;65;65;1;1;9;(0,0);nothing,100
 rat;R;10;10;10;0;1;3;(0,0);cheese,pill,nothing,40,50,100
 bat;B;25;20;20;0;1;6;(0,0);meat,pill,nothing,30,70,100
 wolf;W;30;30;30;1;2;3;(0,0);meat,fang,nothing,50,70,100

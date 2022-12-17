@@ -70,7 +70,8 @@ class Entity:
             print("File not found")
             return []
 
-    def recieve_damage(self, enemies_list: list[Any], dmg_info: tuple[str, int]) -> str:
+    def recieve_damage(self, enemies_list: list[Any],
+                       dmg_info: tuple[str, int]) -> str:
         """Recieve damage from attacker."""
         text: str = ""
         who = dmg_info[0]
@@ -78,15 +79,24 @@ class Entity:
         self.health -= damage
         current_health: int = self.health if self.health >= 0 else 0
         instance[self.name]['health'] = current_health
-        text = f'{who} dealt {damage} damage.'
+        text = f'{who} dealt {damage} damage to {self.name}.'
         if self.health <= 0:
             instance.pop(self.name)
             spawned.pop(spawned.index(self.name))
             Entity.remove_from_enemy_list(self, enemies_list)
-            if self.name == 'player':
-                text = text + ' You are dead. Better luck next time!'
-            else:
-                text = text + f' {self.name} was killed'
+            text = text + f' {self.name} was killed'
+        return text + '\n'
+
+    def player_recieve_damage(self, dmg_info: tuple[str, int]) -> str:
+        text: str = ""
+        who = dmg_info[0]
+        damage = dmg_info[1]
+        self.health -= damage
+        current_health: int = self.health if self.health >= 0 else 0
+        instance[self.name]['health'] = current_health
+        text = f'{who} dealt {damage} damage to {self.name}.'
+        if self.health <= 0:
+            text = text + f' You are dead. Better luck next time!'
         return text + '\n'
 
     def deal_damage(self) -> tuple[str, int]:

@@ -2,6 +2,7 @@ import util
 import ui
 from entities import Entity
 import maps.map_controll as mc
+
 saved_tiles =['1']
 SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4']
 SPACES_WITH_ITEMS = ['k', 'm']
@@ -209,20 +210,22 @@ def get_board(filename):
 def get_race():
     given_race = ui.ask_for_race()
     human = 'player;@;50;2;5;(0,0);blood;1'
-    elph = 'player;@;35;3;4;(0,0);blood;1'
+    elf = 'player;@;35;3;4;(0,0);blood;1'
     dwarf = 'player;@;65;1;9;(0,0);blood;1'
     data = open('enemy_template.txt').read().splitlines()
     
     table = data[1].split(';')
     character = Entity(table[0])
-    print(character.name)
-    print(character.health)
     return character
 
 
 def attack_monster(coords: list[int], map_index: int):
-    enemy = mc.enemies[map_index][find_enemy(coords, map_index)]
+    enemy = mc.enemies[map_index][mc.find_enemy(coords, map_index)]
     enemy.recieve_damage(mc.enemies[map_index], PLAYER.deal_damage())
+
+def attack_player():
+    PLAYER.recieve_damage()
+
 
 def item_from_enemy(enemy_loot, enemy_location, board):
     board[enemy_location] = enemy_loot
