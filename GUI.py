@@ -133,9 +133,24 @@ def paint_board(board, background, top_player, left_player, player_coord, window
             elif element == '7':
                 pygame.draw.rect(background, (70, 0, 0),
                                  (left, top, BLOCK_WIDTH, BLOCK_HEIGHT))
+            elif element == 'R':
+                pygame.draw.circle(background, (255, 255, 255),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
+            elif element == 'W':
+                pygame.draw.circle(background, (128, 128, 128),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
+            elif element == 'G':
+                pygame.draw.circle(background, (0, 255, 0),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
+            elif element == 'D':
+                pygame.draw.circle(background, (255, 0, 0),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
+            elif element == 'B':
+                pygame.draw.circle(background, (200, 200, 200),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
             else:
-                pygame.draw.rect(background, (0, 0, 0),
-                                 (left, top, BLOCK_WIDTH, BLOCK_HEIGHT))
+                pygame.draw.circle(background, (165, 42, 42),
+                                 (left+20, top+20),BLOCK_WIDTH/2)
             left += BLOCK_WIDTH
         top += BLOCK_HEIGHT
 
@@ -285,23 +300,43 @@ def main():
                 engine.BOARD_NO = 4
                 player_coord = [27, 26]
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    engine.move_left(board, player_coord, org_board, text_log)
+                if event.key == ord('a'):
+                    engine.move_left(board, player_coord, org_board, text_log, False)
                     if inventory != engine.INVENTORY:
                         inventory = create_inventory()
                     refresh_text_box()
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    engine.move_right(board, player_coord, org_board, text_log)
+                if event.key == ord('d'):
+                    engine.move_right(board, player_coord, org_board, text_log, False)
                     if inventory != engine.INVENTORY:
                         inventory = create_inventory()
                     refresh_text_box()
-                if event.key == pygame.K_UP or event.key == ord('w'):
-                    engine.move_up(board, player_coord, org_board, text_log)
+                if event.key == ord('w'):
+                    engine.move_up(board, player_coord, org_board, text_log, False)
                     if inventory != engine.INVENTORY:
                         inventory = create_inventory()
                     refresh_text_box()
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    engine.move_down(board, player_coord, org_board, text_log)
+                if event.key == ord('s'):
+                    engine.move_down(board, player_coord, org_board, text_log, False)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
+                    refresh_text_box()
+                if event.key == pygame.K_LEFT:
+                    engine.move_left(board, player_coord, org_board, text_log, True)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
+                    refresh_text_box()
+                if event.key == pygame.K_RIGHT:
+                    engine.move_right(board, player_coord, org_board, text_log, True)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
+                    refresh_text_box()
+                if event.key == pygame.K_UP:
+                    engine.move_up(board, player_coord, org_board, text_log, True)
+                    if inventory != engine.INVENTORY:
+                        inventory = create_inventory()
+                    refresh_text_box()
+                if event.key == pygame.K_DOWN:
+                    engine.move_down(board, player_coord, org_board, text_log, True)
                     if inventory != engine.INVENTORY:
                         inventory = create_inventory()
                     refresh_text_box()

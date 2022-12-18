@@ -8,7 +8,7 @@ saved_tiles = ['1']
 SPACES_ALLOWED_TO_MOVE = ['.', '0', '1', '2', '3', '4']
 SPACES_WITH_ITEMS = ['k', 'm']
 GATES = ['G']
-SPACED_BANNED_FROM_MOVING = ''
+SPACED_BANNED_FROM_MOVING = ['5','6','7']
 ENEMIES = ['R', 'W', 'G', 'D', 'B', 'T']
 PASSAGE = ['8', '9']
 PLAYER_SYMBOL = '@'
@@ -136,8 +136,12 @@ def item_action(item,inventory,text_log):
         PLAYER.health = PLAYER.maxhealth
 
 
-def move_left(board, player_coord, org_board, text_log):
-    if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE:
+def move_left(board, player_coord, org_board, text_log, noclip):
+    if board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE and noclip is False:
+        board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
+        player_coord[1] -= 1
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+    elif board[player_coord[0]][player_coord[1]-1] in SPACES_ALLOWED_TO_MOVE+SPACED_BANNED_FROM_MOVING and noclip is True:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[1] -= 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
@@ -157,8 +161,12 @@ def move_left(board, player_coord, org_board, text_log):
 
 
 
-def move_right(board, player_coord, org_board, text_log):
-    if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE:
+def move_right(board, player_coord, org_board, text_log, noclip):
+    if board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE and noclip is False:
+        board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
+        player_coord[1] += 1
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+    elif board[player_coord[0]][player_coord[1]+1] in SPACES_ALLOWED_TO_MOVE+SPACED_BANNED_FROM_MOVING and noclip is True:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[1] += 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
@@ -178,8 +186,12 @@ def move_right(board, player_coord, org_board, text_log):
 
 
 
-def move_up(board, player_coord, org_board, text_log):
-    if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
+def move_up(board, player_coord, org_board, text_log, noclip):
+    if board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE and noclip is False:
+        board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
+        player_coord[0] += -1
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+    elif board[player_coord[0]-1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE+SPACED_BANNED_FROM_MOVING and noclip is True:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[0] += -1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
@@ -199,8 +211,12 @@ def move_up(board, player_coord, org_board, text_log):
 
 
 
-def move_down(board, player_coord, org_board, text_log):
-    if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE:
+def move_down(board, player_coord, org_board, text_log, noclip):
+    if board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE and noclip is False:
+        board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
+        player_coord[0] += 1
+        board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
+    elif board[player_coord[0]+1][player_coord[1]] in SPACES_ALLOWED_TO_MOVE+SPACED_BANNED_FROM_MOVING and noclip is True:
         board[player_coord[0]][player_coord[1]] = org_board[player_coord[0]][player_coord[1]]
         player_coord[0] += 1
         board[player_coord[0]][player_coord[1]] = PLAYER_SYMBOL
